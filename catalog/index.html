@@ -1,30 +1,196 @@
-<!-- autosync-generated-folder-index -->
-<!doctype html>
-<html lang="he" dir="rtl"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>catalog</title>
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>חומש דברים – קטלוג חומרים</title>
 <style>
- *{box-sizing:border-box}
- body{font-family:"Segoe UI",Arial,sans-serif;background:#f7f8fa;color:#16181d;
-      margin:0;padding:28px 16px;line-height:1.5}
- .wrap{max-width:820px;margin:0 auto}
- a.back{display:inline-block;margin-bottom:14px;color:#2563eb;text-decoration:none;font-size:14px}
- a.back:hover{text-decoration:underline}
- h1{font-size:25px;margin:0 0 6px}
- .sub{color:#6b7280;font-size:14px;margin-bottom:20px}
- .item{display:block;background:#fff;border:1px solid #e4e6ea;border-radius:10px;
-       padding:13px 16px;margin-bottom:9px;text-decoration:none;color:inherit;transition:.12s}
- .item:hover{border-color:#2563eb;box-shadow:0 2px 10px rgba(37,99,235,.10)}
- .t{font-weight:600;font-size:15.5px;word-break:break-word}
- .m{color:#8b909a;font-size:12.5px;margin-top:3px}
- .item.dir{background:#fbfcfe;border-color:#d9e2f5}
- .ic{margin-inline-end:7px}
- .empty{color:#8b909a}
- footer{margin-top:26px;color:#9aa0a6;font-size:12px;text-align:center}
-</style></head><body><div class="wrap">
-<a class="back" href="../../">&#8594; חזרה לכל הספרים</a>
-<h1>catalog</h1>
-<div class="sub">קובץ אחד</div>
-<a class="item" href="data.js"><div class="t">data.js</div><div class="m">היום 02:35 · 2 KB</div></a>
-<footer>נוצר אוטומטית</footer>
-</div></body></html>
+  :root {
+    --bg: #f7f3ec;
+    --card: #ffffff;
+    --ink: #2a2118;
+    --muted: #7b6f60;
+    --line: #e7ddcc;
+    --accent: #6d3f1f;
+    --accent2: #b0743d;
+    --soft: #f4ead9;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font-family: "Segoe UI", "Arial Hebrew", Arial, sans-serif; line-height: 1.5; }
+  header { background: linear-gradient(135deg, #5a3218, #a8693a); color: #fff;
+           text-align: center; padding: 34px 16px 46px; }
+  header h1 { margin: 0 0 6px; font-size: 1.9em; }
+  header p { margin: 0; opacity: .9; }
+  .tools { max-width: 1000px; margin: -24px auto 0; padding: 0 16px; }
+  #search { width: 100%; padding: 13px 18px; font-size: 1.05em; border: 1px solid var(--line);
+            border-radius: 12px; box-shadow: 0 4px 14px rgba(0,0,0,.12); outline: none; }
+  #search:focus { border-color: var(--accent2); }
+  nav { position: sticky; top: 0; z-index: 5; background: rgba(247,243,236,.96);
+        border-bottom: 1px solid var(--line); margin-top: 16px; }
+  .chips { max-width: 1000px; margin: 0 auto; padding: 10px 16px; display: flex; gap: 6px;
+           overflow-x: auto; scrollbar-width: thin; }
+  .chip { flex: none; border: 1px solid var(--line); background: #fff; color: var(--ink);
+          border-radius: 20px; padding: 5px 12px; font-size: .9em; cursor: pointer;
+          text-decoration: none; white-space: nowrap; }
+  .chip:hover { border-color: var(--accent2); color: var(--accent); }
+  .chip .n { color: var(--muted); font-size: .85em; margin-inline-start: 4px; }
+  .chip.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .chip.on .n { color: #f1dcc5; }
+  .chip.empty { opacity: .55; }
+  .types { max-width: 1000px; margin: 12px auto 0; padding: 0 16px; display: flex; gap: 6px; flex-wrap: wrap; }
+  main { max-width: 1000px; margin: 0 auto; padding: 8px 16px 60px; }
+  section.parasha { background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+                    margin: 20px 0; overflow: hidden; scroll-margin-top: 60px;
+                    box-shadow: 0 2px 6px rgba(0,0,0,.04); }
+  .p-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
+            padding: 14px 18px; background: var(--soft); border-bottom: 1px solid var(--line); }
+  .p-head h2 { margin: 0; font-size: 1.35em; color: var(--accent); }
+  .p-head .range { color: var(--muted); font-size: .92em; }
+  .p-head .count { margin-inline-start: auto; color: var(--muted); font-size: .85em; }
+  .p-body { padding: 6px 18px 14px; }
+  .p-empty { color: var(--muted); font-style: italic; padding: 10px 0 4px; }
+  h3.ch { margin: 14px 0 4px; font-size: 1em; color: var(--accent2);
+          border-bottom: 1px dashed var(--line); padding-bottom: 3px; }
+  ul.items { list-style: none; margin: 0; padding: 0; }
+  ul.items li { margin: 2px 0; }
+  ul.items a { display: flex; align-items: flex-start; gap: 10px; padding: 7px 8px;
+               border-radius: 8px; color: var(--ink); text-decoration: none; }
+  ul.items a:hover { background: var(--soft); }
+  .ic { flex: none; width: 1.5em; text-align: center; }
+  .t { flex: 1; min-width: 0; }
+  .t .note { display: block; color: var(--muted); font-size: .85em; }
+  .vs { flex: none; font-size: .78em; background: #efe3cf; color: var(--accent);
+        border-radius: 6px; padding: 1px 7px; margin-top: 2px; }
+  .ty { flex: none; font-size: .78em; color: var(--muted); margin-top: 3px; }
+  #nores { display: none; text-align: center; color: var(--muted); padding: 30px 0; }
+  footer { text-align: center; color: var(--muted); font-size: .85em; padding-bottom: 30px; }
+  @media (max-width: 560px) {
+    header h1 { font-size: 1.5em; }
+    .ty { display: none; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>📜 חומש דברים</h1>
+  <p>קטלוג חומרים לפי פרשה ופרק</p>
+</header>
+<div class="tools"><input id="search" type="search" placeholder="חיפוש חומר, נושא או פרק..."></div>
+<nav><div class="chips" id="pchips"></div></nav>
+<div class="types" id="tchips"></div>
+<main id="main"></main>
+<div id="nores">לא נמצאו חומרים</div>
+<footer>יהודה טאוב · קול תודה</footer>
+
+<script src="data.js"></script>
+<script>
+var PARASHOT = [
+  { name: "כללי", label: "כללי לחומש", range: "" },
+  { name: "דברים", range: "א – ג", from: 1, to: 3 },
+  { name: "ואתחנן", range: "ג – ז", from: 3, to: 7 },
+  { name: "עקב", range: "ז – יא", from: 7, to: 11 },
+  { name: "ראה", range: "יא – טז", from: 11, to: 16 },
+  { name: "שופטים", range: "טז – כא", from: 16, to: 21 },
+  { name: "כי תצא", range: "כא – כה", from: 21, to: 25 },
+  { name: "כי תבוא", range: "כו – כט", from: 26, to: 29 },
+  { name: "נצבים", range: "כט – ל", from: 29, to: 30 },
+  { name: "וילך", range: "לא", from: 31, to: 31 },
+  { name: "האזינו", range: "לב", from: 32, to: 32 },
+  { name: "וזאת הברכה", range: "לג – לד", from: 33, to: 34 }
+];
+var ICONS = { "מצגת": "📊", "סרטון": "🎬", "דף עבודה": "📝", "שיעור כתוב": "📖", "סיפור": "📚",
+              "משחק": "🎲", "שמע": "🎧", "תמונה": "🖼️", "קישור": "🔗" };
+
+function heb(n) {
+  var ones = ["", "א", "ב", "ג", "ד", "ה", "ו", "ז", "ח", "ט"], tens = ["", "י", "כ", "ל"];
+  if (n === 15) return "טו"; if (n === 16) return "טז";
+  return tens[Math.floor(n / 10)] + ones[n % 10];
+}
+// "ט-יח" -> 9, לסידור בתוך הפרק
+function verseStart(v) {
+  if (!v) return 0;
+  var vals = { "א":1,"ב":2,"ג":3,"ד":4,"ה":5,"ו":6,"ז":7,"ח":8,"ט":9,"י":10,"כ":20,"ל":30,"מ":40,"נ":50,"ס":60 };
+  var s = 0, w = String(v).split(/[-–]/)[0].replace(/[^א-ת0-9]/g, "");
+  if (/^\d+$/.test(w)) return +w;
+  for (var i = 0; i < w.length; i++) s += vals[w[i]] || 0;
+  return s;
+}
+function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) {
+  return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+
+var items = (window.CATALOG || []).map(function (it, i) { it._i = i; return it; });
+var activeType = "";
+
+function render() {
+  var q = document.getElementById("search").value.trim().toLowerCase();
+  var shown = items.filter(function (it) {
+    if (activeType && it.type !== activeType) return false;
+    if (!q) return true;
+    var hay = [it.title, it.note, it.type, it.parasha, it.verses,
+               it.chapter ? "פרק " + heb(it.chapter) : "", it.chapter || ""].join(" ").toLowerCase();
+    return hay.indexOf(q) !== -1;
+  });
+  var filtering = !!(q || activeType);
+  var html = "", chips = "", total = 0;
+  PARASHOT.forEach(function (p, pi) {
+    var mine = shown.filter(function (it) { return (it.parasha || "כללי") === p.name; });
+    var all = items.filter(function (it) { return (it.parasha || "כללי") === p.name; }).length;
+    var id = "p" + pi;
+    chips += '<a class="chip' + (all ? "" : " empty") + '" href="#' + id + '">' + esc(p.label || p.name) +
+             (all ? '<span class="n">' + (filtering ? mine.length : all) + "</span>" : "") + "</a>";
+    if (filtering && !mine.length) return;
+    total += mine.length;
+    mine.sort(function (a, b) {
+      return (a.chapter || 0) - (b.chapter || 0) || verseStart(a.verses) - verseStart(b.verses) || a._i - b._i;
+    });
+    var body = "", cur = -1;
+    mine.forEach(function (it) {
+      var ch = it.chapter || 0;
+      if (ch !== cur) {
+        if (cur !== -1) body += "</ul>";
+        if (ch || p.name !== "כללי") body += '<h3 class="ch">' + (ch ? "פרק " + heb(ch) : "כללי לפרשה") + "</h3>";
+        body += '<ul class="items">';
+        cur = ch;
+      }
+      body += '<li><a href="' + esc(it.url) + '" target="_blank" rel="noopener">' +
+              '<span class="ic">' + (ICONS[it.type] || "📄") + "</span>" +
+              '<span class="t">' + esc(it.title) + (it.note ? '<span class="note">' + esc(it.note) + "</span>" : "") + "</span>" +
+              (it.verses ? '<span class="vs">' + esc(it.verses) + "</span>" : "") +
+              '<span class="ty">' + esc(it.type || "") + "</span></a></li>";
+    });
+    if (cur !== -1) body += "</ul>";
+    if (!mine.length) body = '<div class="p-empty">עוד אין חומרים לפרשה הזו</div>';
+    html += '<section class="parasha" id="' + id + '"><div class="p-head"><h2>' + esc(p.label || "פרשת " + p.name) + "</h2>" +
+            (p.range ? '<span class="range">פרקים ' + p.range + "</span>" : "") +
+            (all ? '<span class="count">' + all + " חומרים</span>" : "") +
+            '</div><div class="p-body">' + body + "</div></section>";
+  });
+  document.getElementById("main").innerHTML = html;
+  document.getElementById("pchips").innerHTML = chips;
+  document.getElementById("nores").style.display = filtering && !total ? "block" : "none";
+}
+
+function renderTypes() {
+  var used = {};
+  items.forEach(function (it) { if (it.type) used[it.type] = (used[it.type] || 0) + 1; });
+  var names = Object.keys(used);
+  if (names.length < 2) { document.getElementById("tchips").innerHTML = ""; return; }
+  var h = '<span class="chip' + (activeType ? "" : " on") + '" data-t="">הכול</span>';
+  names.forEach(function (t) {
+    h += '<span class="chip' + (activeType === t ? " on" : "") + '" data-t="' + esc(t) + '">' +
+         (ICONS[t] || "📄") + " " + esc(t) + '<span class="n">' + used[t] + "</span></span>";
+  });
+  document.getElementById("tchips").innerHTML = h;
+}
+document.getElementById("tchips").addEventListener("click", function (e) {
+  var c = e.target.closest(".chip"); if (!c) return;
+  activeType = c.dataset.t; renderTypes(); render();
+});
+document.getElementById("search").addEventListener("input", render);
+renderTypes();
+render();
+</script>
+</body>
+</html>
