@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>כיצד בוחרים שופט - דברים א׳</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #333; direction: rtl; }
+        .presentation-container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .slide { background: white; border-radius: 15px; padding: 40px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); transition: transform 0.3s ease; }
+        .slide:hover { transform: translateY(-5px); }
+        .title-slide { text-align: center; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; }
+        .title-slide h1 { font-size: 2.4em; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        .title-slide .subtitle { font-size: 1.2em; opacity: 0.9; margin-bottom: 14px; }
+        .toc-slide h2 { color: #2c3e50; font-size: 2em; margin-bottom: 20px; border-bottom: 3px solid #4facfe; padding-bottom: 10px; }
+        .toc-chapter { color: #34495e; font-size: 1.08em; padding: 6px 0; border-right: 3px solid #4facfe; padding-right: 12px; margin-bottom: 4px; }
+        .principle-slide { border-right: 6px solid #4facfe; }
+        .principle-slide h2 { color: #2c3e50; font-size: 1.9em; margin-bottom: 25px; border-bottom: 3px solid #4facfe; padding-bottom: 10px; }
+        .step-number { display: inline-block; background: #4facfe; color: white; border-radius: 50%; width: 34px; height: 34px; line-height: 34px; text-align: center; font-weight: 700; margin-left: 10px; }
+        .principle-content { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: start; }
+        .description { font-size: 1.08em; line-height: 1.8; color: #34495e; }
+        .examples-box { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 25px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .examples-box h3 { margin-bottom: 15px; font-size: 1.2em; }
+        .example { margin-bottom: 12px; padding: 10px; background: rgba(255,255,255,0.2); border-radius: 8px; border-right: 4px solid #fff; }
+        .wrong { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); color: #721c24; border-right: 4px solid #e74c3c; }
+        .right { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); color: #155724; border-right: 4px solid #27ae60; }
+        .highlight { background: #fff3cd; padding: 20px; border-radius: 10px; border-right: 5px solid #ffc107; margin: 20px 0; font-weight: 600; color: #856404; }
+        .source-box { background: #ecf0f1; border-right: 6px solid #3498db; border-radius: 12px; padding: 22px; margin: 15px 0; }
+        .source-box .ref { font-weight: 700; color: #3498db; margin-bottom: 8px; }
+        .source-box .text { font-size: 1.15em; line-height: 2; color: #2c3e50; font-family: 'David', 'Times New Roman', serif; }
+        .summary-slide { background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); text-align: center; }
+        .summary-slide h2 { color: #d35400; margin-bottom: 30px; }
+        .summary-points { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 20px; margin-top: 30px; }
+        .summary-point { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); text-align: right; }
+        .quote { font-style: italic; font-size: 1.15em; color: #2c3e50; text-align: center; margin: 25px 0; padding: 18px; border-right: 5px solid #3498db; background: #ecf0f1; }
+        @media (max-width: 768px) { .principle-content { grid-template-columns: 1fr; } .slide { padding: 20px; } .title-slide h1 { font-size: 1.6em; } }
+    </style>
+</head>
+<body>
+<div class="presentation-container">
+
+    <div class="slide title-slide">
+        <h1>⚖️ כיצד בוחרים שופט?</h1>
+        <div class="subtitle">חומש דברים פרק א׳ – משה רבנו מחפש עזרה</div>
+        <div class="subtitle">כיתה ו׳ | לומדים מהתורה איך מחליטים נכון</div>
+    </div>
+
+    <div class="slide toc-slide">
+        <h2>📑 תוכן העניינים</h2>
+        <div class="toc-chapter">1. מה הבעיה? מודעת "דרושים" של משה רבנו</div>
+        <div class="toc-chapter">2. שלוש תכונות לשופט: חכם, נבון וידוע</div>
+        <div class="toc-chapter">3. עיקרון ראשון: "שמוע בין אחיכם" – להקשיב לשני הצדדים</div>
+        <div class="toc-chapter">4. עיקרון שני: "לא תכירו פנים" – בלי פרוטקציה</div>
+        <div class="toc-chapter">5. עיקרון שלישי: "לא תגורו מפני איש" – בלי פחד</div>
+        <div class="toc-chapter">6. עיקרון רביעי: "כקטן כגדול תשמעון" – כולם שווים</div>
+        <div class="toc-chapter">7. סיכום</div>
+    </div>
+
+    <div class="slide principle-slide">
+        <h2><span class="step-number">0</span>📢 מודעת "דרושים": משה צריך עזרה</h2>
+        <div class="principle-content">
+            <div class="description">
+                <strong>עם ישראל גדל והפך להמון אנשים, ומשה לא יכול לשפוט את כולם לבד.</strong>
+                לכן הוא מבקש מהעם להציע אנשים שיעזרו לו.
+                <br><br>
+                אבל לא כל אחד מתאים! משה מגדיר <strong>3 תכונות</strong> ו<strong>4 כללי התנהגות</strong>. בואו נלמד אותם אחד אחד.
+            </div>
+            <div class="examples-box">
+                <h3>🤔 מה חושבים מול מה נכון</h3>
+                <div class="example wrong">❌ "כל מי שרוצה יכול להיות שופט"</div>
+                <div class="example right">✅ שופט צריך תכונות מיוחדות וכללים ברורים</div>
+            </div>
+        </div>
+        <div class="highlight">💡 <strong>לזכור:</strong> שופט הוא לא מי שרוצה, אלא מי שמתאים.</div>
+    </div>
+
+    <div class="slide principle-slide">
+        <h2><span class="step-number">1</span>🧠 שלוש תכונות: חכם, נבון וידוע</h2>
+        <div class="source-box">
+            <div class="ref">📖 דברים א׳, יג</div>
+            <div class="text">"הָבוּ לָכֶם אֲנָשִׁים חֲכָמִים וּנְבֹנִים וִידֻעִים לְשִׁבְטֵיכֶם וַאֲשִׂימֵם בְּרָאשֵׁיכֶם"</div>
+        </div>
+        <div class="principle-content">
+            <div class="description">
+                <strong>חכם</strong> – מי שיודע הרבה תורה ומבין אותה.
+                <br>
+                <strong>נבון</strong> – מי שמבין <strong>דבר מתוך דבר</strong>: לומד מה שכתוב ומסיק ממנו מה שלא כתוב במפורש.
+                <br>
+                <strong>ידוע</strong> – אדם <strong>מוכר ואהוב</strong> על הציבור, כדי שכולם יקבלו את דבריו.
+            </div>
+            <div class="examples-box">
+                <h3>🤔 מה חושבים מול מה נכון</h3>
+                <div class="example wrong">❌ "נבון זה אותו דבר כמו חכם"</div>
+                <div class="example right">✅ נבון = להסיק מסקנה חדשה מתוך מה שלמדנו (למשל: מה עושים בהפסקה? זה לא כתוב בתורה, אבל אפשר ללמוד מהעקרונות)</div>
+                <div class="example wrong">❌ "ידוע זה סתם מפורסם"</div>
+                <div class="example right">✅ ידוע = אנשים מכירים אותו ומכבדים אותו, ולכן לא יגידו לו "מי אתה בכלל?"</div>
+            </div>
+        </div>
+        <div class="highlight">💡 <strong>לזכור:</strong> חכם יודע, נבון מבין, ידוע מקובל.</div>
+    </div>
+
+    <div class="slide principle-slide">
+        <h2><span class="step-number">2</span>👂 "שמוע בין אחיכם" – להקשיב לשני הצדדים</h2>
+        <div class="source-box">
+            <div class="ref">📖 דברים א׳, טז</div>
+            <div class="text">"וָאֲצַוֶּה אֶת שֹׁפְטֵיכֶם בָּעֵת הַהִוא לֵאמֹר שָׁמֹעַ בֵּין אֲחֵיכֶם וּשְׁפַטְתֶּם צֶדֶק"</div>
+        </div>
+        <div class="principle-content">
+            <div class="description">
+                <strong>הכלל הראשון של שופט: להקשיב.</strong>
+                יש אנשים ששומעים רק כדי שיגיע התור שלהם לדבר. שופט צריך להקשיב באמת, ו<strong>לשמוע את שני הצדדים</strong> עד הסוף לפני שהוא מחליט.
+            </div>
+            <div class="examples-box">
+                <h3>🤔 מה חושבים מול מה נכון</h3>
+                <div class="example wrong">❌ "מספיק שאשמע את מה שקרה ואחליט"</div>
+                <div class="example right">✅ מקשיבים לילד אחד, אחר כך לילד השני, ורק אז מחליטים</div>
+            </div>
+        </div>
+        <div class="highlight">💡 <strong>לזכור:</strong> אי אפשר לשפוט צדק אם שמענו רק צד אחד.</div>
+    </div>
+
+    <div class="slide principle-slide">
+        <h2><span class="step-number">3</span>🚫 "לא תכירו פנים" – בלי פרוטקציה</h2>
+        <div class="source-box">
+            <div class="ref">📖 דברים א׳, יז</div>
+            <div class="text">"לֹא תַכִּירוּ פָנִים בַּמִּשְׁפָּט"</div>
+        </div>
+        <div class="principle-content">
+            <div class="description">
+                <strong>שופט לא מעדיף אף אחד, גם לא חבר או מי שהוא אוהב.</strong>
+                אסור שהחלטה תושפע מכך שמישהו "קרוב אליי" או "נחמד אליי". בבית משפט כולם עומדים באותו מקום.
+            </div>
+            <div class="examples-box">
+                <h3>🤔 מה חושבים מול מה נכון</h3>
+                <div class="example wrong">❌ "הילד שתמיד מקשיב בשיעור בטח צודק, והילד שמפריע בטח אשם"</div>
+                <div class="example right">✅ בודקים כל מקרה לגופו, בלי קשר לאיך שהתנהגו בעבר</div>
+            </div>
+        </div>
+        <div class="highlight">💡 <strong>לזכור:</strong> במשפט אין חברים ואין פרוטקציות. יש רק אמת.</div>
+    </div>
+
+    <div class="slide principle-slide">
+        <h2><span class="step-number">4</span>🦁 "לא תגורו מפני איש" – בלי פחד</h2>
+        <div class="source-box">
+            <div class="ref">📖 דברים א׳, יז</div>
+            <div class="text">"לֹא תָגוּרוּ מִפְּנֵי אִישׁ כִּי הַמִּשְׁפָּט לֵאלֹהִים הוּא"</div>
+        </div>
+        <div class="principle-content">
+            <div class="description">
+                <strong>שופט צריך אומץ.</strong>
+                גם אם מגיע אדם חזק, חשוב או שאפשר לפחד ממנו, אסור לשנות את ההחלטה. זה לא פשוט: דמיינו שמגיע אליכם ראש העיר מול אדם פשוט.
+                <br><br>
+                מספרים על <strong>שמאי הזקן</strong>: כשכולם פחדו לפסוק מול המלך, הוא פסק את הדין כפי שצריך.
+            </div>
+            <div class="examples-box">
+                <h3>🤔 מה חושבים מול מה נכון</h3>
+                <div class="example wrong">❌ "אם הוא חזק או חשוב, כדאי שאסכים איתו"</div>
+                <div class="example right">✅ הדין הוא של ה׳, ולכן פוסקים אמת גם מול מלך</div>
+            </div>
+        </div>
+        <div class="highlight">💡 <strong>לזכור:</strong> "המשפט לאלוקים הוא" – אנחנו לא מפחדים מבני אדם, אלא עושים מה שה׳ רוצה.</div>
+    </div>
+
+    <div class="slide principle-slide">
+        <h2><span class="step-number">5</span>⚖️ "כקטן כגדול תשמעון" – כולם שווים</h2>
+        <div class="source-box">
+            <div class="ref">📖 דברים א׳, יז</div>
+            <div class="text">"כַּקָּטֹן כַּגָּדֹל תִּשְׁמָעוּן"</div>
+        </div>
+        <div class="principle-content">
+            <div class="description">
+                <strong>משפט קטן חשוב כמו משפט גדול.</strong>
+                אי אפשר לומר "זה רק כמה שקלים, לא שווה להתאמץ". מי שנתבע על סכום קטן מקבל אותה תשומת לב כמו מי שנתבע על סכום גדול.
+                <br><br>
+                וגם: אסור להבדיל בין עשיר לעני. גם כדי לא לבייש את העשיר אסור לפסוק לו שזכאי, כשהוא חייב.
+            </div>
+            <div class="examples-box">
+                <h3>🤔 מה חושבים מול מה נכון</h3>
+                <div class="example wrong">❌ "סכסוך קטן? לא חשוב, נגמור מהר"</div>
+                <div class="example right">✅ כל סכסוך מקבל הקשבה מלאה, קטן כגדול</div>
+                <div class="example wrong">❌ "נפסוק לעשיר שהוא זכאי כדי שלא יתבייש"</div>
+                <div class="example right">✅ פוסקים אמת, בלי קשר לכסף ולכבוד</div>
+            </div>
+        </div>
+        <div class="highlight">💡 <strong>לזכור:</strong> אין "קטן" ואין "גדול" בצדק. לכל אדם מגיע משפט הוגן.</div>
+    </div>
+
+    <div class="slide summary-slide">
+        <h2>🎯 סיכום: איך בוחרים שופט?</h2>
+        <div class="quote">"שָׁמֹעַ בֵּין אֲחֵיכֶם וּשְׁפַטְתֶּם צֶדֶק"</div>
+        <div class="summary-points">
+            <div class="summary-point"><h3>🧠 3 תכונות</h3>חכם, נבון וידוע: יודע, מבין ומקובל על הציבור</div>
+            <div class="summary-point"><h3>👂 שמוע</h3>מקשיבים לשני הצדדים</div>
+            <div class="summary-point"><h3>🚫 לא תכירו פנים</h3>בלי פרוטקציות</div>
+            <div class="summary-point"><h3>🦁 לא תגורו</h3>בלי פחד מאף אחד</div>
+            <div class="summary-point"><h3>⚖️ קטן כגדול</h3>כולם שווים בפני הדין</div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
