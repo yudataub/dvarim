@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>לא כמו חגבים – איך לא נותנים לפחד לנצח</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Suez+One&display=swap" rel="stylesheet">
+<style>
+:root{
+  --apple:#c0262d; --apple-d:#8e1b22; --apple-l:#fde3e1;
+  --honey:#f2a900; --honey-d:#c97f00; --honey-l:#fff1c9;
+  --leaf:#4e8a3e; --leaf-l:#e4f2dc;
+  --cream:#fffaf0; --ink:#3b2412; --muted:#7a5a3a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{
+  font-family:'Heebo','Segoe UI',Arial,sans-serif;color:var(--ink);overflow:hidden;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(255,255,255,.25) 0 12%, transparent 13%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='98' viewBox='0 0 56 98'%3E%3Cpath d='M28 66L0 50V16L28 0l28 16v34L28 66zm0 32L0 82V66l28 16 28-16v16L28 98z' fill='none' stroke='%23ffffff' stroke-opacity='.18' stroke-width='2'/%3E%3C/svg%3E"),
+    linear-gradient(135deg,#f7b733 0%,#e8890c 45%,#b5341e 100%);
+}
+.deck{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:18px 16px 92px}
+.slide{
+  position:absolute;width:min(1100px,calc(100vw - 32px));max-height:calc(100vh - 120px);
+  background:var(--cream);border-radius:28px;padding:42px 52px 40px;
+  box-shadow:0 24px 60px rgba(90,30,0,.35),0 0 0 6px rgba(255,255,255,.35);
+  overflow-y:auto;opacity:0;visibility:hidden;transform:translateX(-60px) scale(.97);
+  transition:opacity .45s ease,transform .45s ease,visibility .45s;
+  border-top:12px solid var(--apple);
+}
+.slide.active{opacity:1;visibility:visible;transform:none}
+.slide.prev{transform:translateX(60px) scale(.97)}
+.slide::after{ /* honey drip */
+  content:"";position:absolute;top:0;left:40px;width:120px;height:26px;
+  background:radial-gradient(circle at 20px 0,var(--honey) 0 14px,transparent 15px),
+             radial-gradient(circle at 62px 0,var(--honey) 0 20px,transparent 21px),
+             radial-gradient(circle at 100px 0,var(--honey) 0 10px,transparent 11px);
+}
+.icon{
+  width:92px;height:92px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:50px;background:radial-gradient(circle at 35% 30%,#fff 0,var(--honey-l) 55%,#ffd56b 100%);
+  box-shadow:0 6px 18px rgba(201,127,0,.35);float:left;margin:0 18px 10px 0;
+}
+.kicker{display:inline-block;background:var(--apple);color:#fff;font-weight:700;font-size:.95rem;padding:4px 14px;border-radius:999px;margin-bottom:10px}
+.kicker.h{background:var(--honey-d)} .kicker.g{background:var(--leaf)}
+h1{font-family:'Suez One',serif;font-size:clamp(2rem,4.6vw,3.4rem);color:var(--apple-d);line-height:1.15;margin-bottom:12px}
+h2{font-family:'Suez One',serif;font-size:clamp(1.6rem,3.2vw,2.4rem);color:var(--apple-d);line-height:1.2;margin-bottom:16px}
+h3{font-size:1.25rem;color:var(--apple);margin-bottom:6px}
+p,li{font-size:clamp(1.05rem,1.7vw,1.3rem);line-height:1.65}
+p+p{margin-top:10px}
+ul{padding-right:24px;margin-top:6px} li{margin-bottom:6px} li::marker{color:var(--apple)}
+b,strong{color:var(--apple-d)}
+.grid{display:grid;gap:16px;margin-top:14px;clear:both}
+.g2{grid-template-columns:repeat(2,1fr)} .g3{grid-template-columns:repeat(3,1fr)}
+.box{background:#fff;border-radius:18px;padding:18px 20px;border:2px solid #f3dcae;box-shadow:0 4px 12px rgba(150,80,0,.08)}
+.box.red{background:var(--apple-l);border-color:#f5b5b0}
+.box.honey{background:var(--honey-l);border-color:#f6d27a}
+.box.leaf{background:var(--leaf-l);border-color:#b9dca8}
+.box .em{font-size:2rem;display:block;margin-bottom:4px}
+.quote{clear:both;margin-top:16px;background:linear-gradient(90deg,var(--honey-l),#fff);border-right:7px solid var(--honey);padding:16px 22px;border-radius:14px;font-size:1.25rem;font-weight:500}
+.remember{clear:both;margin-top:16px;background:var(--apple);color:#fff;border-radius:16px;padding:14px 20px;font-weight:700;font-size:1.2rem}
+.remember::before{content:"🍎 לזכור: "}
+.reveal-btn{font-family:inherit;font-size:1.05rem;font-weight:700;background:var(--honey);color:var(--ink);border:none;border-radius:999px;padding:10px 22px;cursor:pointer;margin-top:12px;box-shadow:0 4px 0 var(--honey-d)}
+.reveal-btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--honey-d)}
+.hidden-ans{display:none;margin-top:12px;animation:pop .4s ease}
+.hidden-ans.show{display:block}
+@keyframes pop{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:none}}
+.steps{counter-reset:s;list-style:none;padding:0}
+.steps li{counter-increment:s;position:relative;padding-right:46px;margin-bottom:10px}
+.steps li::before{content:counter(s);position:absolute;right:0;top:2px;width:32px;height:32px;border-radius:50%;background:var(--apple);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:1rem}
+.sent{background:#fff;border-radius:14px;padding:12px 18px;margin-bottom:10px;border:2px dashed #e7b35a;font-size:1.25rem}
+.sent small{display:block;color:var(--muted);font-size:.95rem}
+.channels{display:grid;grid-template-columns:auto repeat(3,1fr);gap:8px;margin-top:12px;clear:both}
+.channels div{border-radius:12px;padding:10px;text-align:center;font-weight:600;font-size:1.05rem}
+.channels .hd{background:var(--apple-d);color:#fff}
+.channels .pos{background:var(--leaf-l);cursor:pointer}
+.channels .neg{background:var(--apple-l);cursor:pointer}
+.channels .lab{background:transparent;font-weight:800;color:var(--apple-d);display:flex;align-items:center}
+.channels .pos:hover,.channels .neg:hover{outline:3px solid var(--honey)}
+#chInfo{margin-top:12px;min-height:56px}
+.slide.dense p,.slide.dense li,.slide.dense .box{font-size:clamp(.98rem,1.45vw,1.1rem);line-height:1.5}
+.slide.dense .box{padding:12px 16px}.slide.dense .em{font-size:1.6rem}.slide.dense .grid{gap:10px}
+.title-slide{text-align:center;border-top-width:16px}
+.title-slide .big{font-size:96px;margin:4px 0 6px}
+.title-slide .sub{font-size:1.4rem;color:var(--muted);margin-top:6px}
+.trio{display:flex;justify-content:center;gap:14px;margin-top:22px;flex-wrap:wrap}
+.trio span{padding:10px 24px;border-radius:999px;font-weight:800;font-size:1.3rem;color:#fff}
+.sig{clear:both;margin-top:22px;background:linear-gradient(135deg,var(--honey-l),#ffe4a8);border:2px solid var(--honey);border-radius:16px;padding:16px 20px;font-size:1.05rem;line-height:1.7}
+.sig a{color:var(--apple-d);font-weight:700;word-break:break-all}
+
+/* additions: Torah version */
+.verse{clear:both;margin:14px 0 6px;background:#fff;border-right:7px solid var(--leaf);border-radius:14px;padding:14px 20px;font-size:clamp(1.15rem,2vw,1.45rem);font-weight:700;color:#2f5a25;line-height:1.6}
+.ref{display:block;font-size:.9rem;font-weight:500;color:var(--muted);margin-top:4px}
+.box .ref,.quote .ref{margin-top:6px}
+.box small{display:block;color:var(--muted);font-size:.95rem;margin-top:6px}
+.section-slide{text-align:center;display:flex;flex-direction:column;justify-content:center;min-height:min(420px,calc(100vh - 140px))}
+.section-slide .big{font-size:96px;margin-bottom:6px}
+.title-slide .big{font-size:80px}
+.slide.dense .verse{font-size:clamp(1.05rem,1.7vw,1.25rem);padding:10px 18px;margin:10px 0 4px}
+.slide.dense .sent{font-size:1.1rem;padding:8px 14px;margin-bottom:6px}
+.section-slide .sub{font-size:1.35rem;color:var(--muted);margin-top:6px}
+.red-sec{border-top-color:var(--apple)} .honey-sec{border-top-color:var(--honey-d)} .leaf-sec{border-top-color:var(--leaf)}
+.honey-sec h1{color:var(--honey-d)} .leaf-sec h1{color:var(--leaf)}
+.rainbow-arc{width:min(280px,60%);aspect-ratio:2/1;margin:0 auto -64px;border-radius:999px 999px 0 0;
+  background:radial-gradient(circle at 50% 100%,transparent 0 46%,#7b4fd6 46% 52%,#2f7fd8 52% 58%,#3fa34d 58% 64%,#f2c300 64% 70%,#f08a00 70% 76%,#d63031 76% 82%,transparent 82%);opacity:.9}
+.circles{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.circles span{background:var(--leaf-l);border:2px solid #b9dca8;border-radius:999px;padding:8px 18px;font-weight:700;font-size:1.1rem}
+.teacher{border-top-color:#7a5a3a}
+.teacher li{font-size:clamp(.95rem,1.4vw,1.08rem)}
+/* bottom bar */
+.bar{position:fixed;bottom:0;left:0;right:0;height:76px;display:flex;align-items:center;justify-content:center;gap:14px;padding:0 16px;
+  background:rgba(70,25,5,.55);backdrop-filter:blur(8px)}
+.nav{font-family:inherit;width:52px;height:52px;border-radius:50%;border:none;background:var(--cream);color:var(--apple-d);font-size:1.6rem;font-weight:800;cursor:pointer;box-shadow:0 4px 0 var(--honey-d)}
+.nav:disabled{opacity:.4;cursor:default}
+.counter{color:#fff;font-weight:800;font-size:1.2rem;min-width:90px;text-align:center}
+.tool{font-family:inherit;border:none;background:rgba(255,255,255,.18);color:#fff;border-radius:999px;padding:9px 16px;font-size:1rem;cursor:pointer}
+.progress{position:fixed;top:0;right:0;height:6px;background:linear-gradient(90deg,var(--honey),var(--apple));transition:width .4s;z-index:5}
+.toc{position:fixed;inset:0;background:rgba(40,15,0,.6);display:none;align-items:center;justify-content:center;z-index:20;padding:16px}
+.toc.show{display:flex}
+.toc-in{background:var(--cream);border-radius:22px;padding:24px;max-width:720px;width:100%;max-height:85vh;overflow:auto}
+.toc-in h2{margin-bottom:10px}
+.toc-in ol{padding-right:28px;columns:2;column-gap:28px}
+.toc-in li{font-size:1rem;margin-bottom:4px;cursor:pointer;break-inside:avoid}
+.toc-in li:hover{color:var(--apple)}
+.hint{color:#ffe9c2;font-size:.85rem}
+@media (max-width:760px){
+  .slide{padding:30px 20px 26px;border-radius:20px}
+  .g2,.g3{grid-template-columns:1fr}
+  .icon{width:64px;height:64px;font-size:34px}
+  .channels{grid-template-columns:auto repeat(3,1fr);gap:5px}
+  .channels div{font-size:.85rem;padding:7px 4px}
+  .toc-in ol{columns:1}
+  .hint,.tool.fs{display:none}
+}
+@media print{
+  body{overflow:visible;background:#fff}
+  .bar,.progress,.toc{display:none}
+  .deck{position:static;display:block;padding:0}
+  .slide{position:relative;opacity:1;visibility:visible;transform:none;max-height:none;width:100%;margin:0 0 20px;page-break-after:always;box-shadow:none}
+  .hidden-ans{display:block}.reveal-btn{display:none}
+}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<main class="deck" id="deck">
+<!-- 1 -->
+<section class="slide title-slide" data-title="פתיחה">
+  <div class="rainbow-arc" aria-hidden="true"></div>
+  <div class="big">🦗</div>
+  <h1>לא כמו חגבים</h1>
+  <p class="sub"><b>איך לא נותנים לפחד לנצח</b> – לומדים מחטא המרגלים</p>
+  <p class="sub">דברים פרק א' · שיעור המשך ל"הקשת שלי" · כיתות ד'–ה'</p>
+  <div class="trio">
+    <span style="background:var(--apple)">🤲 קבלה</span>
+    <span style="background:var(--honey-d)">🔄 שינוי</span>
+    <span style="background:var(--leaf)">🌱 תקווה</span>
+  </div>
+  <p class="hint" style="color:var(--muted);margin-top:22px;font-size:1rem">מעבר בין שקופיות: חצים במקלדת, רווח, החלקה במסך או הכפתורים למטה</p>
+</section>
+
+<!-- 2 -->
+<section class="slide" data-title="נזכרים בקשת שלי">
+  <div class="icon">🌈</div>
+  <span class="kicker">נזכרים</span>
+  <h2>זוכרים את הקשת שלנו?</h2>
+  <p>בשיעור הקודם למדנו שקשת מופיעה רק כשיש <b>גשם ושמש ביחד</b>. גם בלב: אפשר לפחד, ובאותו זמן להרגיש שה' איתנו.</p>
+  <div class="grid g3">
+    <div class="box red"><span class="em">🤲</span><h3>קבלה</h3>מותר לי להרגיש קשה, ואני בידיים טובות.</div>
+    <div class="box honey"><span class="em">🔄</span><h3>שינוי</h3>מחשבה שמקטינה אותי היא אורחת, לא אני.</div>
+    <div class="box leaf"><span class="em">🌱</span><h3>תקווה</h3>ה' אוהב אותנו ואת העולם, וכנראה יהיה טוב.</div>
+  </div>
+  <div class="quote">היום נראה מה קרה לעם ישראל במדבר, כשהפחד ניצח, ואיך אפשר לעשות אחרת.</div>
+</section>
+
+<!-- 3 -->
+<section class="slide" data-title="המרגלים יוצאים">
+  <div class="icon">🗺️</div>
+  <span class="kicker g">הסיפור</span>
+  <h2>שנים־עשר מרגלים יוצאים לדרך</h2>
+  <p>עם ישראל עומד ממש לפני הכניסה לארץ ישראל. העם מבקש ממשה לשלוח אנשים שיבדקו את הארץ לפניהם. שנים־עשר מרגלים, אחד מכל שבט, הולכים ארבעים יום בארץ.</p>
+  <p>מה הם ראו שם? <button class="reveal-btn" data-reveal="r3">גלו</button></p>
+  <div class="hidden-ans" id="r3">
+    <div class="grid g3">
+      <div class="box leaf"><span class="em">🍇</span>ארץ טובה מאוד, עם פירות ענקיים</div>
+      <div class="box honey"><span class="em">🏰</span>ערים גדולות עם חומות גבוהות</div>
+      <div class="box red"><span class="em">🧌</span>ואנשים ענקיים</div>
+    </div>
+    <div class="verse">"וְגַם בְּנֵי עֲנָקִים רָאִינוּ שָׁם"<span class="ref">דברים א, כח</span></div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="slide" data-title="כחגבים">
+  <div class="icon">🦗</div>
+  <span class="kicker g">הסיפור</span>
+  <h2>"כַּחֲגָבִים"</h2>
+  <p>המרגלים חזרו וסיפרו:</p>
+  <div class="verse">"וַנְּהִי בְעֵינֵינוּ כַּחֲגָבִים, וְכֵן הָיִינוּ בְּעֵינֵיהֶם"<span class="ref">במדבר יג, לג</span></div>
+  <p>"הרגשנו קטנים כמו חגבים, וגם הענקים ראו אותנו כמו חגבים".</p>
+  <p>רגע... איך המרגלים ידעו מה הענקים חושבים עליהם? <button class="reveal-btn" data-reveal="r4">גלו</button></p>
+  <div class="hidden-ans" id="r4">
+    <div class="remember">הם לא ידעו. הם <b>דמיינו</b>. ככה עובדת חרדה: אני מנחש מה יקרה ומה אחרים חושבים, ומאמין לניחוש שלי.</div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="slide" data-title="הפחד מתפשט">
+  <div class="icon">🌊</div>
+  <span class="kicker">מה קרה אחר כך</span>
+  <h2>הפחד עובר מאחד לכולם</h2>
+  <p>עשרה מהמרגלים לא רק פחדו. הם אמרו לכל העם:</p>
+  <div class="verse">"לֹא נוּכַל לַעֲלוֹת אֶל הָעָם, כִּי חָזָק הוּא מִמֶּנּוּ"<span class="ref">במדבר יג, לא</span></div>
+  <p>והעם כולו נבהל. העם עצמו אמר: <b>"אַחֵינוּ הֵמַסּוּ אֶת לְבָבֵנוּ"</b>, האחים שלנו המיסו לנו את הלב. כל העם בכה באותו לילה.</p>
+  <div class="verse">"וְלָמָה ה' מֵבִיא אֹתָנוּ אֶל הָאָרֶץ הַזֹּאת לִנְפֹּל בַּחֶרֶב, נָשֵׁינוּ וְטַפֵּנוּ יִהְיוּ לָבַז"<span class="ref">במדבר יד, ג</span></div>
+  <div class="remember">פחד מדבק. כשאחד מבוהל ומספר לכולם, כולם נבהלים, והדמיון רץ: "כולנו נמות שם".</div>
+</section>
+
+<!-- 6 -->
+<section class="slide" data-title="בשנאת ה' אותנו">
+  <div class="icon">💔</div>
+  <span class="kicker">מה קרה אחר כך</span>
+  <h2>"ה' שונא אותנו"?!</h2>
+  <p>הפחד היה כל כך גדול, שהעם התחיל לחשוב מחשבה מבהילה:</p>
+  <div class="verse">"בְּשִׂנְאַת ה' אֹתָנוּ הוֹצִיאָנוּ מֵאֶרֶץ מִצְרָיִם"<span class="ref">דברים א, כז</span></div>
+  <p>אחרי כל הניסים, אחרי קריעת ים סוף והמן, הם חשבו שה' שונא אותם!</p>
+  <div class="quote">רש"י מסביר: ה' אהב אותם מאוד, אבל הלב שלהם היה מלא כעס עליו. ויש על זה משל: <b>מה שבלב שלך על החבר, אתה חושב שנמצא בלב שלו עליך.</b></div>
+  <div class="remember">כשאדם בפחד גדול אומר דברים לא הגיוניים, לא הוא מדבר. הפחד מדבר. וכשאני מפחד, כל העולם נראה לי מפחיד, גם מי שאוהב אותי.</div>
+</section>
+
+<!-- 7 -->
+<section class="slide" data-title="כלב, יהושע ומשה">
+  <div class="icon">🦁</div>
+  <span class="kicker g">מי שלא פחד</span>
+  <h2>כלב, יהושע ומשה</h2>
+  <div class="grid g2">
+    <div class="box leaf"><h3>💪 כלב בן יפונה</h3>
+      <div class="verse">"עָלֹה נַעֲלֶה וְיָרַשְׁנוּ אֹתָהּ, כִּי יָכוֹל נוּכַל לָהּ"<span class="ref">במדבר יג, ל</span></div></div>
+    <div class="box leaf"><h3>🛡️ יהושע וכלב</h3>
+      <div class="verse">"וַה' אִתָּנוּ, אַל תִּירָאֻם"<span class="ref">במדבר יד, ט</span></div></div>
+  </div>
+  <p style="margin-top:12px">ומשה מזכיר לעם בספר דברים: שכחתם מי הוציא אתכם ממצרים?</p>
+  <div class="verse">"ה' אֱלֹקֵיכֶם הַהֹלֵךְ לִפְנֵיכֶם הוּא יִלָּחֵם לָכֶם, כְּכֹל אֲשֶׁר עָשָׂה אִתְּכֶם בְּמִצְרַיִם"<span class="ref">דברים א, ל</span></div>
+</section>
+
+<!-- 8 -->
+<section class="slide" data-title="למה זה לא עזר?">
+  <div class="icon">🤔</div>
+  <span class="kicker h">שאלה חשובה</span>
+  <h2>למה זה לא עזר?</h2>
+  <p>כלב ויהושע אמרו דברים נכונים. משה הזכיר את כל הניסים. ובכל זאת העם לא הקשיב, ואפילו רצה <b>לרגום אותם באבנים</b>.</p>
+  <p>למה? <button class="reveal-btn" data-reveal="r8">גלו</button></p>
+  <div class="hidden-ans" id="r8">
+    <div class="box honey">כשהלב בפאניקה, <b>אי אפשר לשמוע הסברים</b>. זוכרים את "מגדל השמירה" במוח? כשהוא דרוך, המוח החושב יוצא מהמשחק.</div>
+    <div class="quote" style="margin-top:10px">רש"י מספר שכלב היה חכם: הוא לא התחיל להתווכח. קודם הוא צעק "וכי זו בלבד עשה לנו בן עמרם?", וכולם השתתקו כדי לשמוע. רק כשהיה שקט, הוא אמר: "והלא קרע לנו את הים, והוריד לנו את המן!"</div>
+    <div class="remember">קודם מרגיעים ומקבלים קשב, ורק אחר כך מסבירים.</div>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="slide dense" data-title="מה הייתה הבעיה">
+  <div class="icon">🔍</div>
+  <span class="kicker h">חושבים</span>
+  <h2>האם הבעיה הייתה שהם פחדו?</h2>
+  <p><b>לא!</b> גם יעקב אבינו פחד: <b>"וַיִּירָא יַעֲקֹב מְאֹד"</b>. פחד הוא רגש שה' ברא בנו, והוא שומר עלינו. אז מה הייתה הבעיה?</p>
+  <div class="grid g2">
+    <div class="box red"><span class="em">🌊</span><h3>שכחו את מה שהם יודעים</h3>הם ראו בעיניים את עשר המכות, את קריעת ים סוף ואת המן. ובכל זאת נתנו לפחד להשכיח מהם שה' מנהל את העולם. כלב ויהושע זכרו.</div>
+    <div class="box red"><span class="em">🕳️</span><h3>נשארו בתוך הפחד</h3>לא חטאו בזה שנבהלו לרגע מהענקים. הם נכנסו לחרדה <b>ולא יצאו ממנה</b>, ועוד משכו את כל העם איתם.</div>
+  </div>
+  <div class="remember">מותר לפחד. רק לא נותנים לפחד להשכיח את מה שאנחנו יודעים, ולא נשארים בתוכו.</div>
+</section>
+
+<!-- 10 -->
+<section class="slide" data-title="גם אצלנו: האזעקה">
+  <div class="icon">🚨</div>
+  <span class="kicker">גם אצלנו</span>
+  <h2>ומה קורה לנו באזעקה?</h2>
+  <p>יש אזעקה. יש ילדים ואנשים שמרגישים פחד גדול מאוד. בואו נבחין בין שני קולות:</p>
+  <div class="grid g2">
+    <div class="box leaf"><h3>✅ הפחד אומר</h3>"יש אזעקה, רצים לממ"ד!"<br><small>זה נכון, וזה טוב. הפחד עושה את העבודה שלו ושומר עלינו.</small></div>
+    <div class="box red"><h3>🌀 החרדה מוסיפה סיפור</h3>"עוד רגע הטיל נופל דווקא עליי, והבניין מתרסק..."<br><small>אבל אנחנו כבר בממ"ד, והממ"ד שומר עלינו.</small></div>
+  </div>
+  <div class="remember">האזעקה אמיתית, ואנחנו עושים מה שצריך. את הסיפור המפחיד מוסיף הדמיון.</div>
+</section>
+
+<!-- 11 -->
+<section class="slide" data-title="פחד או חרדה">
+  <div class="icon">⚖️</div>
+  <span class="kicker h">לומדים</span>
+  <h2>פחד או חרדה?</h2>
+  <div class="grid g2">
+    <div class="box leaf"><span class="em">🐕</span><h3>פחד</h3>מגיע ממשהו <b>אמיתי</b> שקורה <b>עכשיו</b>.<br><small>כלב גדול רץ לעברי, אני זז הצידה.</small></div>
+    <div class="box honey"><span class="em">💭</span><h3>חרדה</h3>מגיעה ממה שאני <b>מדמיין</b> שאולי יקרה.<br><small>יושב בבית וחושב "ואם יהיה כלב בדרך?", ולא יוצא בכלל.</small></div>
+  </div>
+  <div class="quote">כשאני רואה משהו מפחיד ואחר כך ממשיך לדמיין עוד ועוד דברים נוראים, זו חרדה. בדיוק כמו המרגלים: ראו ענקים, ודמיינו שהם חגבים.</div>
+</section>
+
+<!-- 12 -->
+<section class="slide dense" data-title="משחק: מציאות או דמיון">
+  <div class="icon">🎲</div>
+  <span class="kicker h">משחק</span>
+  <h2>מציאות או דמיון?</h2>
+  <p>קראו כל משפט, נחשו, ולחצו לבדוק:</p>
+  <div class="grid g2">
+    <div class="box"><b>"יש אזעקה."</b><br><button class="reveal-btn" data-reveal="q1">בדיקה</button><div class="hidden-ans" id="q1">✅ <b>מציאות.</b> הפחד עוזר: רצים לממ"ד.</div></div>
+    <div class="box"><b>"הטיל ייפול דווקא עליי."</b><br><button class="reveal-btn" data-reveal="q2">בדיקה</button><div class="hidden-ans" id="q2">💭 <b>דמיון.</b> אני מנחש. אני בממ"ד ושמור.</div></div>
+    <div class="box"><b>"מחר יש מבחן בחשבון."</b><br><button class="reveal-btn" data-reveal="q3">בדיקה</button><div class="hidden-ans" id="q3">✅ <b>מציאות.</b> אפשר להתכונן.</div></div>
+    <div class="box"><b>"בטוח אקבל אפס וכולם יצחקו עליי."</b><br><button class="reveal-btn" data-reveal="q4">בדיקה</button><div class="hidden-ans" id="q4">💭 <b>דמיון.</b> "כחגבים היינו בעיניהם": אני מנחש מה אחרים יחשבו.</div></div>
+  </div>
+</section>
+
+<!-- 13 -->
+<section class="slide" data-title="אזעקה שמתבלבלת">
+  <div class="icon">🚗</div>
+  <span class="kicker h">לומדים</span>
+  <h2>חרדה היא כמו אזעקה שמתבלבלת</h2>
+  <p>מכירים אזעקה של מכונית שמתחילה לצפצף כי חתול נגע בה? היא צועקת "סכנה!", אבל אין שום גנב.</p>
+  <p>כך גם חרדה: היא מצלצלת בגוף, הלב דופק והבטן מתהפכת, גם כשאנחנו כבר מוגנים.</p>
+  <div class="grid g3">
+    <div class="box leaf"><span class="em">✅</span>זה <b>נורמלי</b>, זה קורה לכולם</div>
+    <div class="box leaf"><span class="em">⏱️</span>זה <b>זמני</b>, תוך כמה דקות זה עובר</div>
+    <div class="box leaf"><span class="em">🌊</span>זה כמו <b>גל</b>: עולה, ואחר כך יורד</div>
+  </div>
+</section>
+
+<!-- 14 -->
+<section class="slide" data-title="למה אמונה מורידה פחד">
+  <div class="icon">🛡️</div>
+  <span class="kicker g">אמונה</span>
+  <h2>למה אמונה מורידה את הפחד?</h2>
+  <p>הפחד הכי קשה הוא כשאדם מרגיש <b>חסר אונים</b>: אין לו מה לעשות ואין לו על מי לסמוך.</p>
+  <p>מי שמאמין, גם כשהוא מפחד, לא נמצא שם:</p>
+  <div class="grid g3">
+    <div class="box leaf"><span class="em">👑</span><b>יש מי שמנהל</b> את העולם</div>
+    <div class="box leaf"><span class="em">🙏</span><b>יש למי לפנות</b>: אפשר להתפלל</div>
+    <div class="box leaf"><span class="em">🧰</span><b>יש מה לעשות</b>: אני לא תקוע</div>
+  </div>
+  <div class="remember">האמונה היא כמו רשת ביטחון. גם כשמפחדים, לא נופלים לבד.</div>
+</section>
+
+<!-- 15 -->
+<section class="slide section-slide red-sec" data-title="מה עושים? הקשת">
+  <div class="big">🌈</div>
+  <h1>אז מה עושים?</h1>
+  <p class="sub">לא אומרים "אסור לפחד". משתמשים בקשת שלנו.</p>
+</section>
+
+<!-- 16 -->
+<section class="slide" data-title="קבלה: מותר לפחד">
+  <div class="icon">🤲</div>
+  <span class="kicker">קבלה</span>
+  <h2>זה נורמלי שאני מפחד</h2>
+  <p>הצעד הראשון הוא להבין: <b>הפחד שלי נורמלי.</b> ה' ברא אותו בי כדי לשמור עליי. גם יעקב אבינו פחד, ובכל זאת התכונן, התפלל ועשה.</p>
+  <div class="grid g2">
+    <div class="box red"><h3>❌ לא אומרים</h3>"אסור לפחד! תפסיק עם זה!"</div>
+    <div class="box leaf"><h3>✅ אומרים</h3>"אני מפחד עכשיו, וזה בסדר. זה הגוף שלי ששומר עליי."</div>
+  </div>
+  <div class="remember">לא נלחמים בפחד. מקבלים אותו, ואז מחליטים מה עושים.</div>
+</section>
+
+<!-- 17 -->
+<section class="slide dense" data-title="שינוי: עוברת בי מחשבה">
+  <div class="icon">🔄</div>
+  <span class="kicker h">שינוי</span>
+  <h2>לא "אני מפחד", אלא "עוברת בי מחשבה"</h2>
+  <p>המרגלים אמרו: "אנחנו חגבים". הם האמינו למחשבה. אנחנו נעשה אחרת:</p>
+  <div class="sent">😣 "הטיל ייפול עליי."<small>נשמע כמו עובדה</small></div>
+  <div class="sent">🤔 "עוברת בי מחשבה שהטיל ייפול עליי."<small>זו רק מחשבה, ואני זה שמסתכל עליה</small></div>
+  <div class="sent">🌤️ "<b>כרגע</b> עוברת בי מחשבה של פחד, <b>ואני יכול להחליט אם להמשיך איתה</b>."<small>מחשבה זמנית, והשלט אצלי</small></div>
+  <div class="remember">אני לא חגב. אני נשמה טהורה, והמחשבה המפחידה היא רק אורחת.</div>
+</section>
+
+<!-- 18 -->
+<section class="slide dense" data-title="לבדוק את המחשבה">
+  <div class="icon">🔎</div>
+  <span class="kicker h">שינוי</span>
+  <h2>לבדוק את המחשבה: נכונה? טובה לי?</h2>
+  <p>כשהמחשבה היא "משהו שעובר בי" ולא "אני", אפשר לעצור ולשאול אותה: <b>✔️ האם היא נכונה? 💚 האם היא טובה לי?</b></p>
+  <div class="quote">המרגלים היו יכולים לומר: "נכון, הענקים מפחידים. אבל ה' כבר הכה את מצרים וקרע את הים. המחשבה 'כולנו נמות' לא נכונה, והיא לא טובה לי." וזה מה שעשה כלב: <b>"יָכוֹל נוּכַל לָהּ"</b>.</div>
+  <div class="box leaf" style="margin-top:12px"><span class="em">🪖</span>חייל רואה מולו אויב גדול ומפחד. אחרי הרגע הראשון הוא אומר לעצמו: "רגע, אני לא לבד. יש מאחוריי צבא שלם." המחשבה המפחידה פוגשת את כל המציאות, ונחלשת.</div>
+  <div class="remember">מי בוחר אם להמשיך עם המחשבה? אני. המחשבה עוברת, ואני נשאר.</div>
+</section>
+
+<!-- 19 -->
+<section class="slide" data-title="תקווה: כאשר ישא איש את בנו">
+  <div class="icon">🌱</div>
+  <span class="kicker g">תקווה</span>
+  <h2>ה' נושא אותנו</h2>
+  <p>משה מזכיר לעם מה ה' עשה להם במדבר:</p>
+  <div class="verse">"אֲשֶׁר נְשָׂאֲךָ ה' אֱלֹקֶיךָ כַּאֲשֶׁר יִשָּׂא אִישׁ אֶת בְּנוֹ"<span class="ref">דברים א, לא</span></div>
+  <p>כמו אבא שמרים את הילד שלו על הידיים. <b>כמו שה' עזר לנו עד היום, הוא יעזור לנו גם בעתיד.</b> עברנו את פרעה, נעבור גם את זה.</p>
+  <div class="verse">"נֵצַח יִשְׂרָאֵל לֹא יְשַׁקֵּר"<span class="ref">שמואל א טו, כט</span></div>
+  <div class="remember">עם ישראל נשאר, ורק מתרומם מכל דבר. ה' עושה לי את הטוב, ואני סומך עליו.</div>
+</section>
+
+<!-- 20 -->
+<section class="slide dense" data-title="הקשת בענן">
+  <div class="icon">🌈</div>
+  <span class="kicker g">תקווה</span>
+  <h2>הקשת בענן</h2>
+  <p>זוכרים את נח? הוא יצא מהתיבה אחרי שראה עולם שלם נמחק. איך בונים חיים חדשים, כשכל רגע אולי יבוא מבול נוסף?</p>
+  <p>ה' נתן לו הבטחה:</p>
+  <div class="verse">"וְלֹא יִהְיֶה עוֹד מַבּוּל לְשַׁחֵת הָאָרֶץ"<span class="ref">בראשית ט, יא</span></div>
+  <div class="verse">"אֶת קַשְׁתִּי נָתַתִּי בֶּעָנָן, וְהָיְתָה לְאוֹת בְּרִית בֵּינִי וּבֵין הָאָרֶץ"<span class="ref">בראשית ט, יג</span></div>
+  <p>הקשת אמרה לנח: יש עתיד, יש המשך, אפשר לבנות מחדש. ומתוך התקווה הזאת הוא התחיל עולם חדש.</p>
+  <div class="remember">הפחד יבוא, זה טבעי. אבל אחרי כל מבול, הקדוש ברוך הוא שם קשת בענן.</div>
+</section>
+
+<!-- 21 -->
+<section class="slide" data-title="לא תירגע, אלא תעשה">
+  <div class="icon">🏃</div>
+  <span class="kicker g">ברגע עצמו</span>
+  <h2>לא "תירגע", אלא "תעשה"</h2>
+  <p>כשמישהו מבוהל, לא אומרים לו "זה לא מפחיד" וגם לא "תירגע". זה לא עובד.</p>
+  <p>מה כן עובד? <b>פעולה.</b> כשאני לא עושה כלום, אני מרגיש חסר אונים והפחד גדל. כשאני עושה משהו, אפילו דבר קטן, אני מרגיש שאני שולט במשהו.</p>
+  <div class="grid g2">
+    <div class="box leaf"><span class="em">📖</span><b>תהילים הוא פעולה.</b> לא יושבים ומחכים. "אני עושה משהו, יש לי במה להתגונן."</div>
+    <div class="box leaf"><span class="em">🎶</span><b>שירה ביחד.</b> כולם שרים, הגוף והקול עסוקים, והמילים מזכירות שיש מי ששומר.</div>
+  </div>
+  <div class="quote">🤝 חבר שלי מבוהל? לא חוקרים אותו שוב ושוב מה קרה. נותנים לו משימה: "בוא נסדר יחד את התיק", "תעזור לי לחלק מים".</div>
+</section>
+
+<!-- 22 -->
+<section class="slide dense" data-title="יכול נוכל בממ&quot;ד">
+  <div class="icon">💪</div>
+  <span class="kicker g">עושים</span>
+  <h2>"יָכוֹל נוּכַל": מה עושים בממ"ד?</h2>
+  <p>המרגלים אמרו "לא נוכל" ונשארו בלי כוח. כלב אמר "יכול נוכל" ורצה לעשות. גם אנחנו: בממ"ד לא יושבים ומדמיינים, אלא <b>עושים משהו</b>.</p>
+  <div class="grid g3">
+    <div class="box leaf"><span class="em">🥤</span>מביאים מים לאח קטן, או מחזיקים לו את היד</div>
+    <div class="box leaf"><span class="em">👨‍👩‍👧</span>סופרים שכל בני המשפחה כאן</div>
+    <div class="box leaf"><span class="em">📖</span>אומרים "שיר למעלות, אשא עיני אל ההרים"</div>
+    <div class="box leaf"><span class="em">🌸</span>נושמים: מריחים פרח, נושפים לאט על נר</div>
+    <div class="box leaf"><span class="em">🦶</span>"רוקע הארץ על המים": לוחצים רגליים לרצפה</div>
+    <div class="box leaf"><span class="em">🏙️</span>משחקים "ארץ עיר" עם המשפחה</div>
+  </div>
+  <div class="remember">לא משנה כל כך מה עושים. העיקר לא לשבת ולקפוא. כשאני עושה משהו, אני כבר לא חגב, אני כמו כלב: "יכול נוכל".</div>
+</section>
+
+<!-- 23 -->
+<section class="slide dense" data-title="התוכנית שלי לאזעקה">
+  <div class="icon">📝</div>
+  <span class="kicker g">מתכוננים מראש</span>
+  <h2>התוכנית שלי לאזעקה</h2>
+  <p>מה שמכינים בשקט עומד לרשותנו בסערה. ביום רגיל, כשהכול רגוע והראש עובד, מחליטים מה עושים כשמגיע פחד. וכשהרגע מגיע, התוכנית כבר מוכנה.</p>
+  <p><b>כל אחד כותב במחברת:</b></p>
+  <ol class="steps">
+    <li>כשיש אזעקה, אני עושה: ____________</li>
+    <li>המשפט שאני אומר לעצמי: ____________ <small style="color:var(--muted)">(למשל "יכול נוכל", "וה' אתנו")</small></li>
+    <li>הפרק בתהילים או השיר שאני בוחר: ____________</li>
+    <li>מישהו שאני עוזר לו בממ"ד: ____________</li>
+  </ol>
+  <div class="remember">מתרגלים את התוכנית בבית עם המשפחה, כמו שמתרגלים כל דבר.</div>
+</section>
+
+<!-- 24 -->
+<section class="slide dense" data-title="מרגלים מול כלב: סיכום">
+  <div class="icon">🌈</div>
+  <span class="kicker">סיכום</span>
+  <h2>המרגלים מול כלב</h2>
+  <div class="grid g2">
+    <div class="box red"><h3>🦗 המרגלים</h3><ul><li>דמיינו: "כחגבים"</li><li>הפחידו את כולם</li><li>"לא נוכל", ושכחו שה' איתם</li></ul></div>
+    <div class="box leaf"><h3>🦁 כלב ויהושע</h3><ul><li>ראו את המציאות</li><li>הרגיעו וחיזקו</li><li>"יכול נוכל", "וה' אתנו"</li></ul></div>
+  </div>
+  <div class="grid g3">
+    <div class="box red"><span class="em">🤲</span><b>קבלה:</b> זה נורמלי שאני מפחד</div>
+    <div class="box honey"><span class="em">🔄</span><b>שינוי:</b> עוברת בי מחשבה, והשלט אצלי</div>
+    <div class="box leaf"><span class="em">🌱</span><b>תקווה:</b> ה' נושא אותנו, ואחרי כל מבול יש קשת</div>
+  </div>
+  <div class="remember">ברגע עצמו עושים, ואחרי: קשת. ואז אומרים כמו כלב: "יָכוֹל נוּכַל לָהּ".</div>
+</section>
+
+<!-- 25 -->
+<section class="slide" data-title="שאלות לשיחה">
+  <div class="icon">💬</div>
+  <span class="kicker g">לשיחה</span>
+  <h2>שאלות לשיחה בכיתה</h2>
+  <ol class="steps">
+    <li>מתי הרגשתי "כמו חגב", קטן מול משהו גדול?</li>
+    <li>האם פעם דמיינתי משהו נורא, ובסוף זה בכלל לא קרה?</li>
+    <li>מה עוזר לי כשהלב שלי דופק מפחד?</li>
+    <li>איך אני יכול להיות "כלב" בשביל חבר שמפחד: קודם להרגיע, ואחר כך לחזק?</li>
+    <li>מה ה"יכול נוכל" שלי השבוע?</li>
+    <li>מה כתבתי בתוכנית שלי לאזעקה, ועם מי בבית אתרגל אותה?</li>
+  </ol>
+</section>
+
+<!-- 26 -->
+<section class="slide dense" data-title="שאלות למחברת">
+  <div class="icon">✏️</div>
+  <span class="kicker g">עונים במחברת</span>
+  <h2>שאלות למחברת</h2>
+  <p>ענו במחברת במשפטים שלכם:</p>
+  <ol class="steps">
+    <li>מה גרמה החרדה למרגלים?</li>
+    <li>מה ההבדל בין פחד לחרדה?</li>
+    <li>כיצד מתגברים על חרדה?</li>
+  </ol>
+  <button class="reveal-btn" data-reveal="ans">✅ תשובות לבדיקה</button>
+  <div class="hidden-ans" id="ans">
+    <div class="grid g3">
+      <div class="box red"><h3>1. המרגלים</h3>החרדה גרמה להם לדמיין את הגרוע מכול ("כחגבים", "כולנו נמות"), לשכוח את כל הניסים שראו, להפחיד את כל העם ולומר "לא נוכל".</div>
+      <div class="box honey"><h3>2. פחד וחרדה</h3><b>פחד</b> הוא ממשהו אמיתי שקורה עכשיו. הוא שומר עלינו ועובר. <b>חרדה</b> היא ממה שאני מדמיין שאולי יקרה ("ומה אם...?"), והיא ממשיכה גם כשאין סכנה.</div>
+      <div class="box leaf"><h3>3. מתגברים</h3><b>ברגע עצמו</b> עושים: תהילים, שירה, משימה. <b>אחרי</b>, קשת: קבלה ("מותר לפחד"), שינוי ("עוברת בי מחשבה. נכונה? טובה לי?"), תקווה ("ה' איתנו", הקשת). ומתכוננים מראש.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 27 -->
+<section class="slide dense teacher" data-title="למורה: לפני השיעור">
+  <div class="icon">🧑‍🏫</div>
+  <span class="kicker">למורה בלבד</span>
+  <h2>לפני השיעור: כמה דגשים</h2>
+  <ul>
+    <li><b>לא מבטלים את הסכנה.</b> האזעקה אמיתית, ויש ילדים שמכירים מישהו שנפגע. ההבחנה היא בין מה שהפחד אומר לעשות (לרוץ לממ"ד) לבין הסיפור שהחרדה מוסיפה.</li>
+    <li><b>הבעיה של המרגלים לא הייתה הפחד.</b> כדאי להדגיש את זה, כדי שילד שמפחד לא יחשוב שהוא "חוטא כמו המרגלים".</li>
+    <li><b>לא קוראים לחרדה "מסוכנת".</b> ילד חרד עלול לפחד מהפחד עצמו. החרדה היא אזעקה שמתבלבלת: נורמלית, זמנית, ועוברת.</li>
+    <li><b>מקורות:</b> "כחגבים" ו"יכול נוכל" מבמדבר יג; דברי משה מדברים א, כז–לא; כלב ויהושע "וה' אתנו" מבמדבר יד, ט; רש"י על "ויהס כלב" (במדבר יג, ל) ועל "בשנאת ה' אתנו" (דברים א, כז); "כולנו נמות" מבמדבר יד, ג; הקשת מבראשית ט.</li>
+    <li><b>שני שלבים:</b> בשעת האירוע לא מעבדים, עושים (משימה, תהילים, שירה). את הקבלה, השינוי והתקווה עושים אחרי, כשרגוע.</li>
+    <li><b>ילד שמגיב חזק</b> (בכי שלא נרגע, ניתוק): נמצאים איתו, ומשתפים את היועצת אחרי השיעור.</li>
+    <li>השיעור ממשיך את "הקשת שלי" ומבוסס על מודל קש"ת (קבלה, שינוי, תקווה), מותאם לדרך התורה.</li>
+  </ul>
+  <div class="sig">
+    📚 עוד חומרי לימוד על פרשת השבוע – חינם, במאגר הקול החמישי:
+    <a href="https://www.kol-toda.co.il/t/parasha.html" target="_blank" rel="noopener">https://www.kol-toda.co.il/t/parasha.html</a><br>
+    המאגר המלא: <a href="https://www.kol-toda.co.il/" target="_blank" rel="noopener">https://www.kol-toda.co.il/</a>
+  </div>
+</section>
+
+</main>
+
+<div class="bar">
+  <button class="tool" id="tocBtn" title="תוכן עניינים">☰ תוכן</button>
+  <button class="nav" id="prevBtn" title="הקודם (→)">→</button>
+  <div class="counter" id="counter" dir="ltr">1 / 1</div>
+  <button class="nav" id="nextBtn" title="הבא (←)">←</button>
+  <button class="tool fs" id="fsBtn" title="מסך מלא (F)">⛶ מסך מלא</button>
+  <span class="hint">← → · רווח · F</span>
+</div>
+
+<div class="toc" id="toc"><div class="toc-in"><h2>📋 תוכן המצגת</h2><ol id="tocList"></ol></div></div>
+
+<script>
+(function(){
+  const slides=[...document.querySelectorAll('.slide')];
+  const n=slides.length;
+  let cur=0;
+  const counter=document.getElementById('counter'),prog=document.getElementById('progress'),
+        prevBtn=document.getElementById('prevBtn'),nextBtn=document.getElementById('nextBtn');
+  function go(i){
+    i=Math.max(0,Math.min(n-1,i));
+    slides.forEach((s,k)=>{s.classList.toggle('active',k===i);s.classList.toggle('prev',k<i)});
+    cur=i;counter.textContent=(i+1)+' / '+n;prog.style.width=((i+1)/n*100)+'%';
+    prevBtn.disabled=i===0;nextBtn.disabled=i===n-1;
+    slides[i].scrollTop=0;
+    history.replaceState(null,'','#'+(i+1));
+  }
+  prevBtn.onclick=()=>go(cur-1);nextBtn.onclick=()=>go(cur+1);
+  document.addEventListener('keydown',e=>{
+    if(e.target.tagName==='INPUT')return;
+    if(['ArrowLeft','PageDown',' ','Enter'].includes(e.key)){e.preventDefault();go(cur+1)}
+    else if(['ArrowRight','PageUp','Backspace'].includes(e.key)){e.preventDefault();go(cur-1)}
+    else if(e.key==='Home')go(0);else if(e.key==='End')go(n-1);
+    else if(e.key==='f'||e.key==='F'||e.key==='כ')toggleFs();
+    else if(e.key==='Escape')toc.classList.remove('show');
+  });
+  // swipe (RTL: swipe left = next)
+  let sx=null,sy=null;
+  document.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
+  document.addEventListener('touchend',e=>{if(sx===null)return;const dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;
+    if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5)go(dx<0?cur+1:cur-1);sx=null},{passive:true});
+  // fullscreen
+  function toggleFs(){try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}catch(e){}}
+  document.getElementById('fsBtn').onclick=toggleFs;
+  // toc
+  const toc=document.getElementById('toc'),tl=document.getElementById('tocList');
+  slides.forEach((s,k)=>{const li=document.createElement('li');li.textContent=s.dataset.title||('שקופית '+(k+1));li.onclick=()=>{go(k);toc.classList.remove('show')};tl.appendChild(li)});
+  document.getElementById('tocBtn').onclick=()=>toc.classList.add('show');
+  toc.onclick=e=>{if(e.target===toc)toc.classList.remove('show')};
+  // reveals
+  document.querySelectorAll('.reveal-btn').forEach(b=>b.onclick=()=>{document.getElementById(b.dataset.reveal).classList.add('show');b.style.display='none'});
+  // channels
+  const info=document.getElementById('chInfo');
+  document.querySelectorAll('.channels [data-ch]').forEach(c=>c.onclick=()=>{info.innerHTML='<b>'+c.textContent+':</b> '+c.dataset.ch;info.className='box '+(c.classList.contains('pos')?'leaf':'red')});
+  const h=parseInt(location.hash.slice(1));go(isNaN(h)?0:h-1);
+})();
+</script>
+</body>
+</html>
