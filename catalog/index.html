@@ -149,7 +149,7 @@ function render() {
     if (filtering && !mine.length) return;
     total += mine.length;
     mine.sort(function (a, b) {
-      return (a.chapter || 0) - (b.chapter || 0) || verseStart(a.verses) - verseStart(b.verses) || a._i - b._i;
+      return (a.chapter || 0) - (b.chapter || 0) || (a.last ? 999 : verseStart(a.verses)) - (b.last ? 999 : verseStart(b.verses)) || a._i - b._i;
     });
     var body = "", cur = -1;
     mine.forEach(function (it) {
