@@ -54,6 +54,16 @@
   h3.ch { margin: 14px 0 4px; font-size: 1em; color: var(--accent2);
           border-bottom: 1px dashed var(--line); padding-bottom: 3px; }
   ul.items { list-style: none; margin: 0; padding: 0; }
+  .lesson { border: 1px solid var(--line); border-inline-start: 5px solid var(--lc); border-radius: 12px;
+            background: var(--lb); padding: 4px 10px 6px; margin: 12px 0; }
+  .lesson .l-head { font-weight: 700; color: var(--lc); font-size: .95em; padding: 6px 4px 4px; }
+  .lesson .l-title { font-weight: 600; color: var(--ink); margin-inline-start: 6px; }
+  .lesson ul.items a:hover { background: rgba(255,255,255,.7); }
+  .l0 { --lc: #a0602c; --lb: #fdf6ec; }
+  .l1 { --lc: #2f6f8f; --lb: #f0f6f9; }
+  .l2 { --lc: #5b7a3a; --lb: #f3f7ec; }
+  .l3 { --lc: #7d4a86; --lb: #f7f1f8; }
+  .l-sum { --lc: #6d3f1f; --lb: #f4ead9; border-style: dashed; border-inline-start-style: solid; }
   ul.items li { margin: 2px 0; }
   ul.items a { display: flex; align-items: flex-start; gap: 10px; padding: 7px 8px;
                border-radius: 8px; color: var(--ink); text-decoration: none; }
@@ -126,6 +136,7 @@ function verseStart(v) {
 function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) {
   return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
 
+var LESSONS = window.LESSONS || {};
 var items = (window.CATALOG || []).map(function (it, i) { it._i = i; return it; });
 var activeType = "";
 
@@ -148,17 +159,32 @@ function render() {
              (all ? '<span class="n">' + (filtering ? mine.length : all) + "</span>" : "") + "</a>";
     if (filtering && !mine.length) return;
     total += mine.length;
+    // כל פרק מחולק לשיעורים: כל שיעור במלבן משלו, הסיכום (last) בסוף הפרק
+    function lessonKey(it) { return it.last ? 9999 : (it.lesson || 0); }
     mine.sort(function (a, b) {
-      return (a.chapter || 0) - (b.chapter || 0) || (a.last ? 999 : verseStart(a.verses)) - (b.last ? 999 : verseStart(b.verses)) || a._i - b._i;
+      return (a.chapter || 0) - (b.chapter || 0) || lessonKey(a) - lessonKey(b) ||
+             (a.last ? 999 : verseStart(a.verses)) - (b.last ? 999 : verseStart(b.verses)) || a._i - b._i;
     });
-    var body = "", cur = -1;
+    var body = "", curCh = -1, curL = null, nL = 0, inBox = false;
+    function closeList() { body += "</ul>"; if (inBox) body += "</div>"; inBox = false; }
     mine.forEach(function (it) {
-      var ch = it.chapter || 0;
-      if (ch !== cur) {
-        if (cur !== -1) body += "</ul>";
+      var ch = it.chapter || 0, lk = lessonKey(it);
+      if (ch !== curCh) {
+        if (curCh !== -1) closeList();
         if (ch || p.name !== "כללי") body += '<h3 class="ch">' + (ch ? "פרק " + heb(ch) : "כללי לפרשה") + "</h3>";
+        curCh = ch; curL = null;
+      } else if (lk !== curL) {
+        closeList();
+      }
+      if (lk !== curL) {
+        if (lk) {
+          var head = it.last ? "📌 סיכום " + (ch ? "פרק " + heb(ch) : "הפרשה")
+                   : "שיעור " + it.lesson + (LESSONS[it.lesson] ? ' <span class="l-title">' + esc(LESSONS[it.lesson]) + "</span>" : "");
+          body += '<div class="lesson ' + (it.last ? "l-sum" : "l" + (nL++ % 4)) + '"><div class="l-head">' + head + "</div>";
+          inBox = true;
+        }
         body += '<ul class="items">';
-        cur = ch;
+        curL = lk;
       }
       body += '<li><a href="' + esc(it.url) + '" target="_blank" rel="noopener">' +
               '<span class="ic">' + (ICONS[it.type] || "📄") + "</span>" +
@@ -166,7 +192,7 @@ function render() {
               (it.verses ? '<span class="vs">' + esc(it.verses) + "</span>" : "") +
               '<span class="ty">' + esc(it.type || "") + "</span></a></li>";
     });
-    if (cur !== -1) body += "</ul>";
+    if (curCh !== -1) closeList();
     if (!mine.length) body = '<div class="p-empty">עוד אין חומרים לפרשה הזו</div>';
     html += '<section class="parasha" id="' + id + '"><div class="p-head"><h2>' + esc(p.label || "פרשת " + p.name) + "</h2>" +
             (p.range ? '<span class="range">פרקים ' + p.range + "</span>" : "") +
