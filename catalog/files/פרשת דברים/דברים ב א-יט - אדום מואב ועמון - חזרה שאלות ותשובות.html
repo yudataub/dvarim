@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>חזרה – אדום, מואב ועמון – דברים ב'</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;700;900&family=Heebo:wght@400;600;800&display=swap');
+  body{font-family:'Heebo',sans-serif;background:linear-gradient(160deg,#2e1065 0%,#4c1d95 45%,#6d28d9 100%);min-height:100vh}
+  .serif{font-family:'Frank Ruhl Libre',serif}
+  .card{background:#faf5ff;border:2px solid #c4b5fd;border-radius:1.25rem;box-shadow:0 10px 25px rgba(46,16,101,.35)}
+  .q{cursor:pointer;transition:background .2s}
+  .q:hover{background:#ede9fe}
+  .ans{max-height:0;overflow:hidden;transition:max-height .45s ease,opacity .45s;opacity:0}
+  .ans.open{max-height:600px;opacity:1}
+  .num{background:#7c3aed;color:#fff;min-width:2.2rem;height:2.2rem;border-radius:9999px;display:flex;align-items:center;justify-content:center;font-weight:800}
+  .pasuk{background:#f3e8ff;border-right:4px solid #a855f7;border-radius:.5rem;font-family:'Frank Ruhl Libre',serif}
+  .arrow{transition:transform .3s}
+  .q.active .arrow{transform:rotate(180deg)}
+  .tab.active{background:#fde68a;color:#3b0764}
+</style>
+</head>
+<body class="p-4 md:p-8">
+<div class="max-w-4xl mx-auto">
+
+  <header class="text-center text-white mb-6">
+    <div class="text-purple-200 text-lg mb-1">חזרה לסוף השיעור · דברים פרק ב'</div>
+    <h1 class="serif text-4xl md:text-5xl font-black mb-2">המעבר בין שלוש האומות</h1>
+    <p class="text-purple-100 text-xl">אֱדוֹם · מוֹאָב · עַמּוֹן</p>
+    <p class="text-purple-200 mt-3">לחצו על שאלה כדי לגלות את התשובה</p>
+    <div class="flex flex-wrap justify-center gap-3 mt-4">
+      <button onclick="toggleAll(true)" class="bg-amber-300 text-purple-950 font-bold px-5 py-2 rounded-full hover:bg-amber-200">הצג את כל התשובות</button>
+      <button onclick="toggleAll(false)" class="bg-white/20 text-white font-bold px-5 py-2 rounded-full hover:bg-white/30">הסתר הכול</button>
+    </div>
+    <div class="flex justify-center gap-2 mt-4">
+      <button class="tab active bg-white/20 text-white font-bold px-4 py-1 rounded-full" onclick="filt('all',this)">הכול</button>
+      <button class="tab bg-white/20 text-white font-bold px-4 py-1 rounded-full" onclick="filt('edom',this)">אדום</button>
+      <button class="tab bg-white/20 text-white font-bold px-4 py-1 rounded-full" onclick="filt('moav',this)">מואב</button>
+      <button class="tab bg-white/20 text-white font-bold px-4 py-1 rounded-full" onclick="filt('amon',this)">עמון</button>
+    </div>
+  </header>
+
+  <div id="list" class="space-y-6"></div>
+
+  <footer class="text-center text-purple-200 mt-8 text-sm">דברים ב' ב'–י"ט · עם פירוש רש"י</footer>
+</div>
+
+<script>
+const sections = [
+ {id:'edom', title:'האומה הראשונה – אֱדוֹם (בני עשו)', icon:'⛰️', qs:[
+  ['מה <b>שם האומה הראשונה</b>?','<b>אדום</b> – בני עשו, היושבים בשעיר.','"אַתֶּם עֹבְרִים בִּגְבוּל אֲחֵיכֶם בְּנֵי עֵשָׂו הַיֹּשְׁבִים בְּשֵׂעִיר" (ב\' ד\')'],
+  ['<b>למה קוראים</b> לאומה בשם זה?','על שם <b>הנזיד האדום</b> שעשו ביקש מיעקב. (וגם נולד "אדמוני").','"הַלְעִיטֵנִי נָא מִן הָאָדֹם הָאָדֹם הַזֶּה... עַל כֵּן קָרָא שְׁמוֹ אֱדוֹם" (בראשית כ"ה ל\')'],
+  ['<b>מי היה אביהם</b>?','<b>עשו</b> – אחיו של יעקב. לכן התורה קוראת להם "אחיכם".',''],
+  ['איך קוראים ל<b>ארץ שלהם</b>?','<b>הר שעיר</b>.','"כִּי יְרֻשָּׁה לְעֵשָׂו נָתַתִּי אֶת הַר שֵׂעִיר" (ב\' ה\')'],
+  ['היכן <b>בתפילה</b> מזכירים ארץ זו?','בסוף <b>שירת הים</b> בפסוקי דזמרה (פסוק מספר עובדיה).','"וְעָלוּ מוֹשִׁעִים בְּהַר צִיּוֹן לִשְׁפֹּט אֶת הַר עֵשָׂו וְהָיְתָה לַה\' הַמְּלוּכָה"'],
+  ['מה <b>אסור לעשות</b> להם? ומדוע?','<b>אסור להתגרות בהם</b>. כי ה\' נתן להם את ארצם ירושה, ולא ניתן לנו ממנה אפילו כף רגל.','"אַל תִּתְגָּרוּ בָם כִּי לֹא אֶתֵּן לָכֶם מֵאַרְצָם עַד מִדְרַךְ כַּף רָגֶל" (ב\' ה\')'],
+  ['מה <b>מצווה לעשות</b> להם? ומדוע?','<b>לקנות מהם אוכל ומים בכסף</b>. כי ה\' ברך אותנו ולא חסרנו דבר. רש"י: אל תכפו את טובת ה\' ותראו עצמכם כעניים – הראו שאתם עשירים.','"אֹכֶל תִּשְׁבְּרוּ מֵאִתָּם בַּכֶּסֶף... כִּי ה\' אֱלֹקֶיךָ בֵּרַכְךָ... לֹא חָסַרְתָּ דָּבָר" (ב\' ו\'–ז\')'],
+ ]},
+ {id:'moav', title:'האומה השנייה – מוֹאָב', icon:'🏜️', qs:[
+  ['מה <b>שם האומה השנייה</b>?','<b>מואב</b>.','"אַל תָּצַר אֶת מוֹאָב" (ב\' ט\')'],
+  ['<b>למה קוראים</b> להם כך?','<b>"מֵאָב"</b> – הבת הגדולה של לוט קראה לבנה בשם שמפרסם בגלוי שהוא מאביה.','"וַתִּקְרָא שְׁמוֹ מוֹאָב" (בראשית י"ט ל"ז)'],
+  ['<b>מי היה אביהם</b>?','<b>לוט</b> – בן אחיו של אברהם אבינו.',''],
+  ['מה <b>שני הדברים שאסור</b> לעשות להם? ומדוע?','<b>1. אל תצר</b> – לא לצור עליהם. <b>2. אל תתגר בם מלחמה</b>. כי ה\' נתן לבני לוט את ער לירושה.','"אַל תָּצַר אֶת מוֹאָב וְאַל תִּתְגָּר בָּם מִלְחָמָה... כִּי לִבְנֵי לוֹט נָתַתִּי אֶת עָר יְרֻשָּׁה" (ב\' ט\')'],
+ ]},
+ {id:'amon', title:'האומה השלישית – עַמּוֹן', icon:'🏕️', qs:[
+  ['מה <b>שם האומה השלישית</b>?','<b>בני עמון</b>.','"וְקָרַבְתָּ מוּל בְּנֵי עַמּוֹן" (ב\' י"ט)'],
+  ['<b>למה קוראים</b> להם כך?','<b>"בֶּן עַמִּי"</b> – הבת הצעירה של לוט קראה לבנה בשם צנוע, בלי לפרסם ממי הוא.','"וַתִּקְרָא שְׁמוֹ בֶּן עַמִּי" (בראשית י"ט ל"ח)'],
+  ['<b>מי היה אביהם</b>?','גם הם בני <b>לוט</b>.',''],
+  ['מה <b>ההבדל</b> בין האיסור במואב לאיסור בעמון?','במואב נאמר "אל תתגר בם <b>מלחמה</b>" – נאסרה רק מלחמה, אבל מותר היה להפחיד אותם ולהיראות לפניהם חמושים. בעמון נאמר רק "אל תתגר בם" – <b>אסור שום גירוי</b>. רש"י: זה <b>שכר הצניעות</b> של אם עמון, שלא פרסמה את מקור בנה כמו אם מואב.','מואב: "וְאַל תִּתְגָּר בָּם מִלְחָמָה" (ט\') · עמון: "אַל תְּצֻרֵם וְאַל תִּתְגָּר בָּם" (י"ט)'],
+ ]},
+];
+
+let n=0;
+const list=document.getElementById('list');
+sections.forEach(s=>{
+  const sec=document.createElement('section');
+  sec.className='card p-5 md:p-6';
+  sec.dataset.sec=s.id;
+  let html=`<h2 class="serif text-2xl md:text-3xl font-black text-purple-900 mb-4">${s.icon} ${s.title}</h2><div class="space-y-3">`;
+  s.qs.forEach(q=>{
+    n++;
+    html+=`<div class="border border-purple-200 rounded-xl overflow-hidden bg-white">
+      <div class="q flex items-center gap-3 p-3" onclick="tog(this)">
+        <div class="num">${n}</div>
+        <div class="flex-1 text-lg text-purple-950">${q[0]}</div>
+        <div class="arrow text-purple-500 text-xl">▼</div>
+      </div>
+      <div class="ans px-4">
+        <div class="pb-4 pt-1 text-lg text-gray-800">${q[1]}</div>
+        ${q[2]?`<div class="pasuk p-3 mb-4 text-purple-900">${q[2]}</div>`:''}
+      </div></div>`;
+  });
+  html+='</div>';
+  sec.innerHTML=html;
+  list.appendChild(sec);
+});
+
+function tog(el){el.classList.toggle('active');el.nextElementSibling.classList.toggle('open')}
+function toggleAll(open){document.querySelectorAll('.q').forEach(q=>{q.classList.toggle('active',open);q.nextElementSibling.classList.toggle('open',open)})}
+function filt(id,btn){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');
+  document.querySelectorAll('[data-sec]').forEach(s=>s.style.display=(id==='all'||s.dataset.sec===id)?'':'none');
+}
+</script>
+<script>window.parent.postMessage({ action: "ready" }, "*"); 
+ 
+window.console = new Proxy(console, {
+  get(target, prop) {
+    if (['log', 'warn', 'error'].includes(prop)) {
+      return new Proxy(target[prop], {
+        apply(fn, thisArg, args) {
+          fn.apply(thisArg, args);
+          window.parent.postMessage({ action: 'console', 
+            type: prop, 
+            args: args.map((arg) => {
+              try {
+                return JSON.stringify(arg).replace(/^["']|["']$/g, '');
+              } catch (e) {
+                return arg;
+              }
+            }) 
+          }, '*');
+        }
+      });
+    }
+    return target[prop];
+  }
+});
+</script></body>
+</html>
