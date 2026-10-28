@@ -137,6 +137,8 @@ function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function 
   return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
 
 var LESSONS = window.LESSONS || {};
+// המספור מתחיל מחדש בכל פרשה: קודם "ואתחנן 1", ואם אין – המספר לבד (פרשת דברים)
+function lessonTitle(it) { return LESSONS[(it.parasha || "") + " " + it.lesson] || LESSONS[it.lesson]; }
 var items = (window.CATALOG || []).map(function (it, i) { it._i = i; return it; });
 var activeType = "";
 
@@ -179,7 +181,7 @@ function render() {
       if (lk !== curL) {
         if (lk) {
           var head = it.last ? "📌 סיכום " + (ch ? "פרק " + heb(ch) : "הפרשה")
-                   : "שיעור " + it.lesson + (LESSONS[it.lesson] ? ' <span class="l-title">' + esc(LESSONS[it.lesson]) + "</span>" : "");
+                   : "שיעור " + it.lesson + (lessonTitle(it) ? ' <span class="l-title">' + esc(lessonTitle(it)) + "</span>" : "");
           body += '<div class="lesson ' + (it.last ? "l-sum" : "l" + (nL++ % 4)) + '"><div class="l-head">' + head + "</div>";
           inBox = true;
         }
