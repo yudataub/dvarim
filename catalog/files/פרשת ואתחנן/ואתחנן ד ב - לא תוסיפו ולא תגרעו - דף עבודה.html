@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>לא תוסיפו ולא תגרעו - ואתחנן</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  @page { size: A4; margin: 10mm; }
+  body { font-family: "David", "Frank Ruhl Libre", "Arial", sans-serif; background:#eef0fb; }
+  .sheet { width: 190mm; min-height: 270mm; margin: 0 auto; background:#fff; }
+  .line { border-bottom: 1.5px dotted #8b8fc7; height: 30px; }
+  .card { border: 2.5px solid #4b4fa8; border-radius: 16px; }
+  .num { background:#4b4fa8; color:#fff; width:38px; height:38px; border-radius:50%;
+         display:flex; align-items:center; justify-content:center; font-weight:800; font-size:20px; flex-shrink:0; }
+  .hint { background:#ffe9dc; color:#a3461f; border-radius:999px; padding:2px 12px; font-size:14px; font-weight:700; white-space:nowrap; }
+  .sub { border-right: 4px solid #f08a5d; padding-right: 10px; }
+  @media print { body { background:#fff; } .sheet { box-shadow:none; } *{-webkit-print-color-adjust:exact; print-color-adjust:exact;} }
+</style>
+</head>
+<body class="py-4">
+<div class="sheet shadow-xl rounded-2xl p-6 flex flex-col gap-4">
+
+  <!-- כותרת -->
+  <div class="rounded-2xl p-4 text-center text-white" style="background:linear-gradient(135deg,#3b3f94,#6a5fc1 55%,#f08a5d);">
+    <div class="text-sm opacity-90">חומש דברים · פרשת ואתחנן · פרק ד׳ פסוק ב׳</div>
+    <h1 class="text-4xl font-extrabold my-1">לֹא תֹסִפוּ וְלֹא תִגְרְעוּ</h1>
+    <div class="text-lg font-bold">״לֹא תֹסִפוּ עַל הַדָּבָר אֲשֶׁר אָנֹכִי מְצַוֶּה אֶתְכֶם וְלֹא תִגְרְעוּ מִמֶּנּוּ״</div>
+  </div>
+
+  <div class="flex gap-4 text-lg font-bold" style="color:#3b3f94;">
+    <div class="flex-1">שם: <span class="inline-block w-48 border-b-2 border-dotted" style="border-color:#8b8fc7"></span></div>
+    <div>תאריך: <span class="inline-block w-28 border-b-2 border-dotted" style="border-color:#8b8fc7"></span></div>
+  </div>
+
+  <!-- שאלה 1 -->
+  <div class="card p-4">
+    <div class="flex items-center gap-3 mb-2">
+      <div class="num">1</div>
+      <div class="text-xl flex-1">תן <b>דוגמה</b> לאיסור <b>״לא תוסיף״</b> ו<b>״לא תגרע״</b>:</div>
+      <span class="hint">ד׳ ב׳</span>
+    </div>
+    <div class="sub mb-3">
+      <div class="flex justify-between items-center"><div class="text-lg">לפי <b>רש״י</b>:</div><span class="hint">רש״י ד׳ ב׳</span></div>
+      <div class="line"></div><div class="line"></div>
+    </div>
+    <div class="sub">
+      <div class="flex justify-between items-center"><div class="text-lg">לפי <b>הרמב״ן</b>:</div><span class="hint">רמב״ן ד׳ ב׳</span></div>
+      <div class="line"></div><div class="line"></div>
+    </div>
+  </div>
+
+  <!-- שאלה 2 -->
+  <div class="card p-4">
+    <div class="flex items-center gap-3 mb-2">
+      <div class="num">2</div>
+      <div class="text-xl flex-1"><b>למה אסור</b> להוסיף ולגרוע?</div>
+    </div>
+    <div class="line"></div><div class="line"></div><div class="line"></div>
+  </div>
+
+  <!-- שאלה 3 -->
+  <div class="card p-4">
+    <div class="flex items-center gap-3 mb-2">
+      <div class="num">3</div>
+      <div class="text-xl flex-1"><b>מתי מותר</b> להוסיף על מצווה ואין בזה <b>שום בעיה</b>?</div>
+    </div>
+    <div class="line"></div><div class="line"></div><div class="line"></div>
+  </div>
+
+  <div class="mt-auto text-center rounded-xl py-2 font-bold text-lg" style="background:#eef0fb;color:#3b3f94;">
+    ״תּוֹרַת ה׳ תְּמִימָה״ — שלמה בדיוק כמו שה׳ נתן אותה
+  </div>
+</div>
+<script>window.parent.postMessage({ action: "ready" }, "*"); 
+ 
+window.console = new Proxy(console, {
+  get(target, prop) {
+    if (['log', 'warn', 'error'].includes(prop)) {
+      return new Proxy(target[prop], {
+        apply(fn, thisArg, args) {
+          fn.apply(thisArg, args);
+          window.parent.postMessage({ action: 'console', 
+            type: prop, 
+            args: args.map((arg) => {
+              try {
+                return JSON.stringify(arg).replace(/^["']|["']$/g, '');
+              } catch (e) {
+                return arg;
+              }
+            }) 
+          }, '*');
+        }
+      });
+    }
+    return target[prop];
+  }
+});
+</script></body>
+</html>
