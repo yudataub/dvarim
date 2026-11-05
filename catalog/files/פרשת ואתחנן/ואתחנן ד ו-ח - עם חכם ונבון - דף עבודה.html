@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>דף עבודה - עם חכם ונבון</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Heebo:wght@400;600;800&display=swap');
+  body { font-family: 'Heebo', sans-serif; background:#efe9e1; }
+  .serif { font-family: 'Frank Ruhl Libre', serif; }
+  .page { width:210mm; min-height:297mm; margin:auto; background:#fffaf3; }
+  .line { border-bottom:1.5px dotted #b48a8a; height:2.1rem; }
+  @media print {
+    body { background:#fff; }
+    .page { margin:0; box-shadow:none; }
+    @page { size:A4; margin:0; }
+    * { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  }
+</style>
+</head>
+<body class="py-6 print:py-0">
+<div class="page shadow-2xl p-10 flex flex-col">
+
+  <header class="text-center rounded-2xl p-6 mb-6" style="background:linear-gradient(135deg,#6b1e2e,#8f3044); color:#fdf3e3;">
+    <p class="text-sm tracking-widest opacity-90">פרשת ואתחנן · דברים פרק ד'</p>
+    <h1 class="serif text-4xl font-black mt-1">"רַק עַם חָכָם וְנָבוֹן"</h1>
+    <p class="mt-2 text-base opacity-95">למה הגויים חושבים שעם ישראל הוא העם הנפלא ביותר בעולם?</p>
+  </header>
+
+  <div class="flex gap-6 mb-6 text-base" style="color:#6b1e2e;">
+    <div class="flex-1">שם: <span class="inline-block w-48 border-b-2" style="border-color:#c9a27a;"></span></div>
+    <div class="flex-1">כיתה: <span class="inline-block w-24 border-b-2" style="border-color:#c9a27a;"></span></div>
+    <div class="flex-1">תאריך: <span class="inline-block w-28 border-b-2" style="border-color:#c9a27a;"></span></div>
+  </div>
+
+  <section class="rounded-2xl p-5 mb-6 border-2" style="border-color:#c9a27a; background:#fbf1e4;">
+    <div class="flex items-center gap-3 mb-2">
+      <span class="serif w-10 h-10 rounded-full flex items-center justify-center text-xl font-black text-white" style="background:#8f3044;">1</span>
+      <h2 class="text-xl font-extrabold" style="color:#6b1e2e;">מהם <u>שלוש הסיבות</u> שגורמות לגויים לחשוב שעם ישראל הוא <u>העם הנפלא ביותר בעולם</u>?</h2>
+    </div>
+    <p class="text-sm mb-3 mr-12" style="color:#8a6a55;">רמז: עיינו בדברים פרק ד', פסוקים ו'–ח'</p>
+    <div class="space-y-1 mr-2">
+      <div class="flex items-end gap-2"><span class="font-bold" style="color:#8f3044;">א.</span><div class="line flex-1"></div></div>
+      <div class="line"></div>
+      <div class="flex items-end gap-2"><span class="font-bold" style="color:#8f3044;">ב.</span><div class="line flex-1"></div></div>
+      <div class="line"></div>
+      <div class="flex items-end gap-2"><span class="font-bold" style="color:#8f3044;">ג.</span><div class="line flex-1"></div></div>
+      <div class="line"></div>
+    </div>
+  </section>
+
+  <section class="rounded-2xl p-5 mb-6 border-2" style="border-color:#c9a27a; background:#fbf1e4;">
+    <div class="flex items-center gap-3 mb-2">
+      <span class="serif w-10 h-10 rounded-full flex items-center justify-center text-xl font-black text-white" style="background:#8f3044;">2</span>
+      <h2 class="text-xl font-extrabold" style="color:#6b1e2e;">הבא <u>דוגמאות במציאות היום</u> שרואים שעם ישראל <u>חכם ונבון</u>.</h2>
+    </div>
+    <p class="text-sm mb-3 mr-12" style="color:#8a6a55;">רמז: חשבו על לימוד תורה, על המצוות, על מה שהעולם מעריך בעם ישראל</p>
+    <div class="space-y-1 mr-2">
+      <div class="flex items-end gap-2"><span class="font-bold" style="color:#8f3044;">1.</span><div class="line flex-1"></div></div>
+      <div class="line"></div>
+      <div class="flex items-end gap-2"><span class="font-bold" style="color:#8f3044;">2.</span><div class="line flex-1"></div></div>
+      <div class="line"></div>
+      <div class="flex items-end gap-2"><span class="font-bold" style="color:#8f3044;">3.</span><div class="line flex-1"></div></div>
+      <div class="line"></div>
+    </div>
+  </section>
+
+  <footer class="mt-auto text-center rounded-xl py-3 serif text-lg font-bold" style="background:#f3e3cf; color:#6b1e2e;">
+    "וּשְׁמַרְתֶּם וַעֲשִׂיתֶם כִּי הִוא חָכְמַתְכֶם וּבִינַתְכֶם לְעֵינֵי הָעַמִּים"
+  </footer>
+</div>
+<script>window.parent.postMessage({ action: "ready" }, "*"); 
+ 
+window.console = new Proxy(console, {
+  get(target, prop) {
+    if (['log', 'warn', 'error'].includes(prop)) {
+      return new Proxy(target[prop], {
+        apply(fn, thisArg, args) {
+          fn.apply(thisArg, args);
+          window.parent.postMessage({ action: 'console', 
+            type: prop, 
+            args: args.map((arg) => {
+              try {
+                return JSON.stringify(arg).replace(/^["']|["']$/g, '');
+              } catch (e) {
+                return arg;
+              }
+            }) 
+          }, '*');
+        }
+      });
+    }
+    return target[prop];
+  }
+});
+</script></body>
+</html>
